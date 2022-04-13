@@ -1,24 +1,25 @@
-import logo from './logo.svg';
-import './App.css';
+import { useEffect, useState } from "react";
+import { Routes, Route } from "react-router-dom";
+import { Home, Products, Dashboard } from "./pages";
+
+// redux anjay
+import { Provider } from "react-redux";
+import { listen } from "./redux/listener";
+import store from "./redux/store";
 
 function App() {
+  useEffect(() => {
+    listen();
+  }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Provider store={store}>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/products" element={<Products />} />
+        <Route path="/dashboard" element={<Dashboard />} />
+      </Routes>
+    </Provider>
   );
 }
 
