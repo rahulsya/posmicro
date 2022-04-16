@@ -24,6 +24,11 @@ function Navbar() {
       icon: <DashboardIC />,
       link: "/dashboard",
     },
+    {
+      name: "Profile",
+      icon: <DashboardIC />,
+      link: "/profile",
+    },
   ];
 
   return (
