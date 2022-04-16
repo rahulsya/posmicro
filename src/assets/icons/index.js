@@ -3,5 +3,6 @@ import { ReactComponent as HomeIC } from "./Home.svg";
 import { ReactComponent as DashboardIC } from "./Dashboard.svg";
 import { ReactComponent as LogoutIC } from "./Logout.svg";
 import { ReactComponent as EmptyIL } from "./emptyIL.svg";
+import { ReactComponent as TrashIC } from "./Trash.svg";
 
-export { HomeIC, LogoutIC, DashboardIC, EmptyIL };
+export { HomeIC, LogoutIC, DashboardIC, EmptyIL, TrashIC };
