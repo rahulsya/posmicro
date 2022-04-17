@@ -11,7 +11,7 @@ function EditForm({ data, setShowFromEdit, setData }) {
   return (
     <>
       <div className="flex flex-row justify-between mb-5">
-        <div className="font-semibold text-xl">Edit Product Prodcut</div>
+        <div className="font-semibold text-xl">Edit Prodcut</div>
         <Button
           onPress={() => setShowFromEdit(false)}
           bg="bg-red-500"
