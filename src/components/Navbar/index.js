@@ -6,7 +6,7 @@ function Navbar() {
   const active = ({ isActive }) =>
     isActive
       ? "pt-2 text-blue-500 font-semibold underline underline-offset-4"
-      : "pt-2 font-semibold";
+      : "pt-2 ";
 
   const Menus = [
     {
@@ -33,7 +33,7 @@ function Navbar() {
 
   return (
     <>
-      <div className="text-gray-400 px-6 py-12 bg-white flex flex-col justify-between items-center shadow-xl">
+      <div className="text-gray-400 px-3 lg:px-6 py-12 bg-white flex flex-col justify-between items-center shadow-xl">
         <div>
           {Menus.map((menu, index) => {
             return (
