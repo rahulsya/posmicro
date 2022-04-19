@@ -14,7 +14,7 @@ function Carts() {
   const [currentPayment, setCurrentPayment] = useState("cash");
   return (
     <>
-      <div className="w-full">
+      <div>
         <button
           onClick={() => dispatch(clearItem())}
           className="font-bold justify-end underline text-gray-600 underline-offset-4 pb-3"
