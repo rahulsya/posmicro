@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Routes, Route } from "react-router-dom";
-import { Home, Products, Dashboard } from "./pages";
+import { Home, Products, Dashboard, Profile } from "./pages";
 
 // redux anjay
 import { Provider } from "react-redux";
@@ -18,6 +18,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/products" element={<Products />} />
         <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/profile" element={<Profile />} />
       </Routes>
     </Provider>
   );
