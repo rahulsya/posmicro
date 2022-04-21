@@ -1,6 +1,9 @@
 import React from "react";
 
-function InputText({ title, name, placeholder, type, value, onChange }) {
+function InputText(
+  { title, name, placeholder, type, value, onChange, errors },
+  ref
+) {
   if (type === "file") {
     return (
       <div className="mb-3">
@@ -15,10 +18,16 @@ function InputText({ title, name, placeholder, type, value, onChange }) {
           // onChange
           onChange={onChange}
           value={value}
+          ref={ref}
           // defaultValue={value}
           placeholder={placeholder}
-          className="w-full py-3 px-4 rounded-md border-2 border-gray-300"
+          className="w-full py-3 px-4 rounded-md border-2 border-gray-300 border-[1px] "
         />
+        {errors && (
+          <div className="text-xs text-red-500 font-bold">
+            {name} is Required
+          </div>
+        )}
       </div>
     );
   }
@@ -36,13 +45,19 @@ function InputText({ title, name, placeholder, type, value, onChange }) {
           title={title}
           onChange={onChange}
           value={value}
+          ref={ref}
           // defaultValue={value}
           placeholder={placeholder}
-          className="w-full py-3 px-4 rounded-md"
+          className="w-full py-3 px-4 rounded-md p-3 border-[1px] "
         />
+        {errors && (
+          <div className="text-xs text-red-500 font-bold">
+            {name} is Required
+          </div>
+        )}
       </div>
     </>
   );
 }
 
-export default InputText;
+export default React.forwardRef(InputText);
