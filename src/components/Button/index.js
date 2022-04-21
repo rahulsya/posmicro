@@ -24,6 +24,18 @@ function Button({ title, type, bg, color, onPress }) {
       </button>
     );
   }
+  if (type === "btn-wfull") {
+    return (
+      <button
+        onClick={onPress}
+        className={`w-full px-4 py-3 rounded-md text-center ${
+          bg ? bg : "bg-blue-500"
+        } text-white font-semibold mr-3 hover:shadow-xl`}
+      >
+        {title}
+      </button>
+    );
+  }
   return (
     <button
       onClick={onPress}
