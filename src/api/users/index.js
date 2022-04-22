@@ -6,4 +6,9 @@ export default {
   logout: () => axios.post("/users/logout"),
   update: (data) => axios.put("/users/update", data),
   details: () => axios.get("/users"),
+  refresh: (credentials) =>
+    axios.post("/refresh_token", {
+      refresh_token: credentials.refresh_token,
+      email: credentials.email,
+    }),
 };
