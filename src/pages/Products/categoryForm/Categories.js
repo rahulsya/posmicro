@@ -1,21 +1,6 @@
-import React from "react";
+import { Button } from "../../../components";
 
-const categories = [
-  {
-    id: 1,
-    name: "Cutting Sticker",
-  },
-  {
-    id: 2,
-    name: "Material Sticker",
-  },
-  {
-    id: 3,
-    name: "Material Sticker",
-  },
-];
-
-function Categories() {
+function Categories({ categories }) {
   return (
     <>
       <div className="mt-8">
@@ -28,8 +13,17 @@ function Categories() {
           <tbody>
             {categories.map((category, index) => {
               return (
-                <tr className="text-gray-700">
-                  <td className="py-4 border-b">{category.name}</td>
+                <tr
+                  key={index}
+                  className="text-gray-700 hover:bg-gray-200 hover:cursor-pointer"
+                >
+                  <td className="py-4 border-b w-full flex flex-row justify-between">
+                    {category.name}
+                    <div>
+                      <Button bg="bg-red-400" title="Delete" />
+                      <Button title="Edit" />
+                    </div>
+                  </td>
                 </tr>
               );
             })}
