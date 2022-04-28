@@ -32,9 +32,36 @@ function InputText(
     );
   }
 
+  if (type === "text-area") {
+    return (
+      <div className="w-full mb-3">
+        <label className="font-semibold text-gray-800" htmlFor={name}>
+          {title}
+        </label>
+        <textarea
+          id={name}
+          // type="text"
+          name={name}
+          title={title}
+          onChange={onChange}
+          value={value}
+          ref={ref}
+          // defaultValue={value}
+          placeholder={placeholder}
+          className="w-full py-3 px-4 rounded-md border-[1px] "
+        />
+        {errors && (
+          <div className="text-xs text-red-500 font-bold">
+            {name} is Required
+          </div>
+        )}
+      </div>
+    );
+  }
+
   return (
     <>
-      <div className="mb-3">
+      <div className="w-full mb-3">
         <label className="font-semibold text-gray-800" htmlFor={name}>
           {title}
         </label>
@@ -48,7 +75,7 @@ function InputText(
           ref={ref}
           // defaultValue={value}
           placeholder={placeholder}
-          className="w-full py-3 px-4 rounded-md p-3 border-[1px] "
+          className="w-full py-3 px-4 rounded-md border-[1px] "
         />
         {errors && (
           <div className="text-xs text-red-500 font-bold">
