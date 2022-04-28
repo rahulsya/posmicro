@@ -19,7 +19,10 @@ function Button({ title, type, bg, color, onPress }) {
   }
   if (type === "success") {
     return (
-      <button className="hover:bg-green-400 w-full mt-5 px-4 py-5 rounded-md text-center bg-green-500 shadow-lg text-white font-semibold mr-3">
+      <button
+        onClick={onPress}
+        className="hover:bg-green-500 w-full mt-5 px-4 py-5 rounded-md text-center bg-green-500 shadow-lg text-white font-semibold mr-3"
+      >
         {title}
       </button>
     );
