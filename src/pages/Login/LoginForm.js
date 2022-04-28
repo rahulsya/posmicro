@@ -17,7 +17,7 @@ function LoginForm() {
       .then((response) => {
         console.log(response);
         localStorage.setItem(
-          "Tokens",
+          "tokens",
           JSON.stringify({
             ...response,
             email: data.email,
