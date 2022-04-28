@@ -4,5 +4,6 @@ import Dashboard from "./Dashboard";
 import EmptyPage from "./404";
 import Profile from "./Profile";
 import Login from "./Login";
+import Shipment from "./Shipment";
 
-export { Home, Products, EmptyPage, Dashboard, Profile, Login };
+export { Home, Products, EmptyPage, Dashboard, Profile, Login, Shipment };
