@@ -1,6 +1,6 @@
 import React from "react";
 
-const CartItem = ({ item, onInc, onDec }) => {
+const CartItem = ({ item, onInc, onDec, isShowAction }) => {
   return (
     <>
       <div className="mb-4">
@@ -17,24 +17,26 @@ const CartItem = ({ item, onInc, onDec }) => {
               <p className="font-semibold">{item.name}</p>
               <p className="font-bold">Rp{item.price}</p>
             </div>
-            <div className="flex flex-col items-end font-semibold">
-              <div className="pr-8 pb-3">Amount</div>
-              <div className="flex items-center text-gray-800 ">
-                <button
-                  onClick={onDec}
-                  className="w-9 py-2 rounded-lg text-center bg-gray-400 text-white font-bold"
-                >
-                  -
-                </button>
-                <div className="px-4">{item.qty}</div>
-                <button
-                  onClick={onInc}
-                  className="w-9 py-2 rounded-lg text-center bg-blue-500 text-white font-bold"
-                >
-                  +
-                </button>
+            {isShowAction && (
+              <div className="flex flex-col items-end font-semibold">
+                <div className="pr-8 pb-3">Amount</div>
+                <div className="flex items-center text-gray-800 ">
+                  <button
+                    onClick={onDec}
+                    className="w-9 py-2 rounded-lg text-center bg-gray-400 text-white font-bold"
+                  >
+                    -
+                  </button>
+                  <div className="px-4">{item.qty}</div>
+                  <button
+                    onClick={onInc}
+                    className="w-9 py-2 rounded-lg text-center bg-blue-500 text-white font-bold"
+                  >
+                    +
+                  </button>
+                </div>
               </div>
-            </div>
+            )}
           </div>
         </div>
       </div>
