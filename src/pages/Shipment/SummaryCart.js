@@ -28,8 +28,9 @@ function SummaryCart({ data }) {
             </div>
           </div>
         </div>
-
-        <Button type="success" title="Continue To Payment" />
+        {carts.length > 0 && (
+          <Button type="success" title="Continue To Payment" />
+        )}
       </div>
     </>
   );
