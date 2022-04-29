@@ -1,6 +1,14 @@
 import { useEffect, useState } from "react";
 import { Routes, Route } from "react-router-dom";
-import { Home, Products, Dashboard, Profile, Login, Shipment } from "./pages";
+import {
+  Home,
+  Products,
+  Dashboard,
+  Profile,
+  Login,
+  Shipment,
+  DetailOrderHistory,
+} from "./pages";
 
 // redux anjay
 import { Provider } from "react-redux";
@@ -21,6 +29,7 @@ function App() {
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/shipment" element={<Shipment />} />
+        <Route path="/detail-order" element={<DetailOrderHistory />} />
       </Routes>
     </Provider>
   );
