@@ -3,9 +3,11 @@ import { Navbar, Header, CartItem } from "../../components";
 import Address from "./Address";
 import Courier from "./Courier";
 import SummaryCart from "./SummaryCart";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { addItem, removeItem } from "../../redux/Cart/action";
 
 function Shipment() {
+  const dispatch = useDispatch();
   const carts = useSelector((state) => state.cart);
 
   return (
@@ -22,7 +24,14 @@ function Shipment() {
             <hr className="mb-4" />
             <div className="h-[32rem] overflow-y-auto">
               {carts.map((cart) => {
-                return <CartItem isShowAction={true} item={cart} />;
+                return (
+                  <CartItem
+                    onDec={() => dispatch(removeItem(cart))}
+                    onInc={() => dispatch(addItem(cart))}
+                    isShowAction={true}
+                    item={cart}
+                  />
+                );
               })}
             </div>
           </div>
