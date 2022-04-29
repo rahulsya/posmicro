@@ -63,12 +63,14 @@ function Courier() {
             Next Day (JNE City Courier)
           </div>
           <div className="font-semibold">Estimasi 1-2 Hari</div>
+          <div className="font-semibold">Rp. 15.000</div>
         </div>
         <div className="ml-3 cursor-pointer py-4 px-4 text-gray-800 bg-blue-400 shadow-lg rounded-lg text-sm">
           <div className="font-semibold  text-xs">
             Next Day (JNE City Courier)
           </div>
           <div className="font-semibold">Estimasi 1-2 Hari</div>
+          <div className="font-semibold">Rp. 15.000</div>
         </div>
       </div>
     </>
