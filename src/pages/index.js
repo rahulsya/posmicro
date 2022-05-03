@@ -6,5 +6,6 @@ import Profile from "./Profile";
 import Login from "./Login";
 import Shipment from "./Shipment";
 
+export { default as OrderHistory } from "./OrderHistory";
 export { default as DetailOrderHistory } from "./DetailOrderHistory";
 export { Home, Products, EmptyPage, Dashboard, Profile, Login, Shipment };
