@@ -1,5 +1,12 @@
 import React, { useState } from "react";
-import { HomeIC, LogoutIC, DashboardIC } from "../../assets/icons";
+import {
+  HomeIC,
+  LogoutIC,
+  DashboardIC,
+  ProductIC,
+  ProfileIC,
+  OrderIC,
+} from "../../assets/icons";
 import { NavLink, Link } from "react-router-dom";
 
 function Navbar() {
@@ -16,8 +23,13 @@ function Navbar() {
     },
     {
       name: "Products",
-      icon: <HomeIC />,
+      icon: <ProductIC />,
       link: "/products",
+    },
+    {
+      name: "Orders",
+      icon: <OrderIC />,
+      link: "/order-history",
     },
     {
       name: "Dashboard",
@@ -26,7 +38,7 @@ function Navbar() {
     },
     {
       name: "Profile",
-      icon: <DashboardIC />,
+      icon: <ProfileIC />,
       link: "/profile",
     },
   ];
