@@ -8,6 +8,7 @@ import {
   Login,
   Shipment,
   DetailOrderHistory,
+  OrderHistory,
 } from "./pages";
 
 // redux anjay
@@ -29,6 +30,7 @@ function App() {
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/shipment" element={<Shipment />} />
+        <Route path="/order-history" element={<OrderHistory />} />
         <Route path="/detail-order" element={<DetailOrderHistory />} />
       </Routes>
     </Provider>
