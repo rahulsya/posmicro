@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
 import {
   Home,
@@ -10,6 +10,7 @@ import {
   DetailOrderHistory,
   OrderHistory,
 } from "./pages";
+import { ToastContainer } from "react-toastify";
 
 // redux anjay
 import { Provider } from "react-redux";
@@ -33,6 +34,7 @@ function App() {
         <Route path="/order-history" element={<OrderHistory />} />
         <Route path="/detail-order" element={<DetailOrderHistory />} />
       </Routes>
+      <ToastContainer />
     </Provider>
   );
 }
