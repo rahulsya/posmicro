@@ -11,7 +11,12 @@ export default function reducer(state = intialState, action) {
         return state.map((item) => {
           return {
             ...item,
-            qty: item.id === action.item.id ? item.qty + 1 : item.qty,
+            qty:
+              item.id === action.item.id
+                ? item.qty >= item.amount_stock
+                  ? item.qty
+                  : item.qty + 1
+                : item.qty,
           };
         });
       } else {
