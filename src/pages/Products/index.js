@@ -1,16 +1,34 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Navbar, ProductItem, Button } from "../../components";
 import ProductForm from "./productForm";
 import CategoryForm from "./categoryForm";
-import { product } from "../../data/data";
+// import { product } from "../../data/data";
+import { products as allProduct } from "../../api/products/product";
+// redux
+import { useDispatch } from "react-redux";
+import { fetchCategories } from "../../redux/Categories/action";
 
 function Products() {
-  const [showFormInput, setShowFormInput] = useState(false);
+  const dispatch = useDispatch();
 
+  const [showFormInput, setShowFormInput] = useState(false);
   const [showFormEdit, setShowFromEdit] = useState(false);
+  const [showFormCategory, setShowFormCategory] = useState(false);
   const [dataProduct, setDataProduct] = useState({});
 
-  const [showFormCategory, setShowFormCategory] = useState(false);
+  // data products from api
+  const [products, setProducts] = useState([]);
+
+  useEffect(() => {
+    dispatch(fetchCategories());
+    allProduct()
+      .then((response) => {
+        setProducts(response.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
 
   return (
     <div className="flex flex-row min-h-screen bg-slate-100">
@@ -40,7 +58,7 @@ function Products() {
             />
           </div>
           <div className="grid grid-cols-2 lg:grid-cols-4 md:grid-cols-3 gap-4 ">
-            {product.map((item) => {
+            {products.map((item) => {
               return (
                 <ProductItem
                   onClick={() => {
@@ -69,6 +87,7 @@ function Products() {
               inputState={{
                 showFormInput,
                 setShowFormInput,
+                setProducts,
               }}
             />
           </div>
