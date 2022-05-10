@@ -15,7 +15,7 @@ function Shipment() {
   const [DataShipment, setDataShipment] = useState({
     courier_service: "",
     total_shipping: 0,
-    estimation: "",
+    shipping_estimation: "",
     total_price: 0,
   });
 
