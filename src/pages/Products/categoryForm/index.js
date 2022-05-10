@@ -1,14 +1,19 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Button, Input } from "../../../components";
+import EditForm from "./EditForm";
 import Categories from "./Categories";
 import { useForm } from "react-hook-form";
-import {
-  addCategory,
-  categories as allCategory,
-} from "../../../api/products/category";
+import { AddCategory } from "../../../redux/Categories/action";
+import { useSelector, useDispatch } from "react-redux";
 
 function CategoryForm({ categoryState }) {
+  const dispatch = useDispatch();
+  const category = useSelector((state) => state.categories);
   const { setShowFormCategory } = categoryState;
+
+  const [showEditCategory, setShowEditCategory] = useState(false);
+  const [dataCategory, setDataCategory] = useState({});
+
   const {
     register,
     handleSubmit,
@@ -16,26 +21,12 @@ function CategoryForm({ categoryState }) {
     reset,
   } = useForm();
 
-  const [categories, setCategories] = useState([]);
-
-  useEffect(() => {
-    allCategory()
-      .then((res) => {
-        const { data } = res;
-        setCategories(data);
-      })
-      .catch((err) => {
-        console.log(`err ${err}`);
-      });
-  }, []);
-
   const onSubmit = (data) => {
-    addCategory({ name: data.category })
-      .then((res) => {
-        setCategories([...categories, res.data]);
-        reset();
-      })
-      .catch((err) => console.log(err));
+    const payload = {
+      name: data.category,
+    };
+    dispatch(AddCategory(payload));
+    reset();
   };
   return (
     <>
@@ -60,9 +51,23 @@ function CategoryForm({ categoryState }) {
           <Button bg="bg-green-500" title="Add Category " />
         </form>
       </div>
+      <div>
+        {showEditCategory && (
+          <EditForm
+            dataEditState={{
+              setShowEditCategory,
+              setDataCategory,
+              dataCategory,
+            }}
+          />
+        )}
+      </div>
       {/* categoriers */}
       <div className="h-[32rem] mt-5 overflow-y-auto">
-        <Categories categories={categories} />
+        <Categories
+          dataEditState={{ setShowEditCategory, setDataCategory }}
+          categories={category?.data}
+        />
       </div>
     </>
   );
