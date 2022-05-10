@@ -83,7 +83,7 @@ function Courier({ DataState }) {
             onChange={(e) => GetCities(e?.target?.value)}
           >
             <option value="1">Select Province</option>
-            {provinces.map((province, index) => {
+            {provinces?.map((province, index) => {
               return (
                 <option key={index} value={province.province_id}>
                   {province.province}
