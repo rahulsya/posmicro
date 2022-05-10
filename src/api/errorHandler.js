@@ -37,8 +37,10 @@ export default function errorHandler(error) {
               localStorage.removeItem("tokens");
             }
           });
-        // console.log(session);
-      } else message = error.response.data.message;
+      } else {
+        message = error.response.data.message;
+        console.log(error.response.data.message);
+      }
 
       if (typeof message === "string") console.log("error alert toast here");
 
