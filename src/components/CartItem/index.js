@@ -1,5 +1,7 @@
 import React from "react";
 
+import { formatNumber } from "../../utils/format-rupiah";
+
 const CartItem = ({ item, onInc, onDec, isShowAction }) => {
   return (
     <>
@@ -7,7 +9,7 @@ const CartItem = ({ item, onInc, onDec, isShowAction }) => {
         <div className="flex flex-row">
           <div className="w-1/4">
             <img
-              src={item.image}
+              src={`${process.env.REACT_APP_IMAGE_URL}/${item?.image_url}`}
               alt="dummy product"
               className="w-24 h-24 object-cover rounded-lg"
             />
@@ -15,7 +17,7 @@ const CartItem = ({ item, onInc, onDec, isShowAction }) => {
           <div className="flex flex-col justify-between text-gray-800 w-full bg-gray-">
             <div>
               <p className="font-semibold">{item.name}</p>
-              <p className="font-bold">Rp{item.price}</p>
+              <p className="font-bold">{formatNumber(item.price)}</p>
             </div>
             {isShowAction && (
               <div className="flex flex-col items-end font-semibold">
@@ -29,8 +31,9 @@ const CartItem = ({ item, onInc, onDec, isShowAction }) => {
                   </button>
                   <div className="px-4">{item.qty}</div>
                   <button
+                    disabled={item.qty >= item.amount_stock ? true : false}
                     onClick={onInc}
-                    className="w-9 py-2 rounded-lg text-center bg-blue-500 text-white font-bold"
+                    className={`w-9 py-2 rounded-lg text-center bg-blue-500 text-white font-bold`}
                   >
                     +
                   </button>
