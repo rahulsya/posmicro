@@ -1,6 +1,11 @@
 import { Button } from "../../../components";
 
-function Categories({ categories }) {
+import { DeleteCategory } from "../../../redux/Categories/action";
+import { useDispatch } from "react-redux";
+
+function Categories({ categories, dataEditState }) {
+  const dispatch = useDispatch();
+  const { setShowEditCategory, setDataCategory } = dataEditState;
   return (
     <>
       <div className="mt-8">
@@ -20,8 +25,18 @@ function Categories({ categories }) {
                   <td className="py-4 border-b w-full flex flex-row justify-between">
                     {category.name}
                     <div>
-                      <Button bg="bg-red-400" title="Delete" />
-                      <Button title="Edit" />
+                      <Button
+                        onPress={() => dispatch(DeleteCategory(category.id))}
+                        bg="bg-red-400"
+                        title="Delete"
+                      />
+                      <Button
+                        onPress={() => {
+                          setShowEditCategory(true);
+                          setDataCategory(category);
+                        }}
+                        title="Edit"
+                      />
                     </div>
                   </td>
                 </tr>
