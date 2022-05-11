@@ -1,15 +1,17 @@
 import React from "react";
 import { Button, Input } from "../../../components";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { AddProduct } from "../../../redux/Products/action";
 import { useForm } from "react-hook-form";
-import { addproducts } from "../../../api/products/product";
 
-function InputForm({ setFormInput, setDataProduct }) {
+function InputForm({ setFormInput }) {
+  const dispatch = useDispatch();
   const category = useSelector((state) => state.categories);
   const {
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm();
 
   const onSubmit = (data) => {
@@ -19,13 +21,8 @@ function InputForm({ setFormInput, setDataProduct }) {
     payload.append("stock", data.amount_stock);
     payload.append("category_id", data.category_id);
     payload.append("image", data.image[0]);
-    addproducts(payload)
-      .then((res) => {
-        setDataProduct((oldState) => [...oldState, res.data]);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    dispatch(AddProduct(payload));
+    reset();
   };
   return (
     <>

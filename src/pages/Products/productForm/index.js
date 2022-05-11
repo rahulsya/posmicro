@@ -2,7 +2,7 @@ import InputForm from "./InputForm";
 import EditForm from "./editForm";
 
 function ProductForm({ inputState, editState }) {
-  const { showFormInput, setShowFormInput, setProducts } = inputState;
+  const { showFormInput, setShowFormInput } = inputState;
   const { showFormEdit, setShowFromEdit, dataProduct, setDataProduct } =
     editState;
 
@@ -11,7 +11,7 @@ function ProductForm({ inputState, editState }) {
       <div>
         {showFormInput && (
           <InputForm
-            setDataProduct={setProducts}
+            // setDataProduct={setProducts}
             setFormInput={setShowFormInput}
           />
         )}

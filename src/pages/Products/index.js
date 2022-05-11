@@ -2,33 +2,35 @@ import React, { useEffect, useState } from "react";
 import { Navbar, ProductItem, Button } from "../../components";
 import ProductForm from "./productForm";
 import CategoryForm from "./categoryForm";
-// import { product } from "../../data/data";
-import { products as allProduct } from "../../api/products/product";
 // redux
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { fetchCategories } from "../../redux/Categories/action";
+import { fetchProduct, DeleteProduct } from "../../redux/Products/action";
 
 function Products() {
   const dispatch = useDispatch();
+
+  const products = useSelector((state) => state.manageProduct);
+  const category = useSelector((state) => state.categories);
 
   const [showFormInput, setShowFormInput] = useState(false);
   const [showFormEdit, setShowFromEdit] = useState(false);
   const [showFormCategory, setShowFormCategory] = useState(false);
   const [dataProduct, setDataProduct] = useState({});
 
-  // data products from api
-  const [products, setProducts] = useState([]);
+  useEffect(() => {
+    if (!products.data.length) {
+      dispatch(fetchProduct());
+    }
+    return;
+  }, [products.data, dispatch]);
 
   useEffect(() => {
-    dispatch(fetchCategories());
-    allProduct()
-      .then((response) => {
-        setProducts(response.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);
+    if (!category.data.length) {
+      dispatch(fetchCategories());
+    }
+    return;
+  }, [category.data, dispatch]);
 
   return (
     <div className="flex flex-row min-h-screen bg-slate-100">
@@ -58,18 +60,24 @@ function Products() {
             />
           </div>
           <div className="grid grid-cols-2 lg:grid-cols-4 md:grid-cols-3 gap-4 ">
-            {products.map((item) => {
+            {products.data?.map((item) => {
               return (
-                <ProductItem
-                  onClick={() => {
-                    setShowFromEdit(true);
-                    // close active form
-                    setShowFormInput(false);
-                    setDataProduct(item);
-                  }}
-                  key={item.id}
-                  item={item}
-                />
+                <>
+                  <ProductItem
+                    actionButtons
+                    actionEdit={() => {
+                      setShowFromEdit(true);
+                      // close active form
+                      setShowFormInput(false);
+                      setDataProduct(item);
+                    }}
+                    actionDelete={() => {
+                      dispatch(DeleteProduct(item.id));
+                    }}
+                    key={item.id}
+                    item={item}
+                  />
+                </>
               );
             })}
           </div>
@@ -87,7 +95,6 @@ function Products() {
               inputState={{
                 showFormInput,
                 setShowFormInput,
-                setProducts,
               }}
             />
           </div>

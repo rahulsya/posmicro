@@ -1,10 +1,12 @@
 import { useState } from "react";
 import { Input, Button } from "../../../components";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { editProduct } from "../../../api/products/product";
 import toast from "../../../utils/toast";
+import { EditProduct } from "../../../redux/Products/action";
 
 function EditForm({ data, setShowFromEdit, setData }) {
+  const dispatch = useDispatch();
   const [newImage, setNewImage] = useState(null);
 
   const category = useSelector((state) => state.categories);
@@ -27,6 +29,7 @@ function EditForm({ data, setShowFromEdit, setData }) {
     editProduct(data.id, payload)
       .then((response) => {
         toast("success", "update product success");
+        dispatch(EditProduct(data.id, data));
       })
       .catch((err) => console.log(err.message));
   };
@@ -78,7 +81,7 @@ function EditForm({ data, setShowFromEdit, setData }) {
             {category?.data.map((item) => {
               return (
                 <option
-                  selected={data.category_id == item.id ? true : false}
+                  selected={data.category_id === item.id ? true : false}
                   key={item.id}
                   value={`${item.id}`}
                 >
