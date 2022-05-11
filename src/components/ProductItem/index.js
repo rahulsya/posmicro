@@ -1,7 +1,14 @@
 import React from "react";
+import { Button } from "../../components";
 import { formatNumber } from "../../utils/format-rupiah";
 
-function ProductItem({ item, onClick }) {
+function ProductItem({
+  item,
+  onClick,
+  actionButtons,
+  actionEdit,
+  actionDelete,
+}) {
   return (
     <>
       <div
@@ -20,6 +27,12 @@ function ProductItem({ item, onClick }) {
         <div className="text-lg font-bold text-gray-800">
           {formatNumber(item.price)}
         </div>
+        {actionButtons && (
+          <div className="flex flex-row justify-end -mr-3 items-end self-end">
+            <Button onPress={actionDelete} bg="bg-red-400" title="Delete" />
+            <Button onPress={actionEdit} bg="bg-blue-400" title="Edit" />
+          </div>
+        )}
       </div>
     </>
   );
