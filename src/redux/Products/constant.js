@@ -1,0 +1,7 @@
+export const FETCH_PRODUCT = "FETCH_DATA_PRODUCT";
+export const ADD_PRODUCT = "ADD_PRODUCT";
+export const DELETE_PRODUCT = "DELETE_PRODUCT";
+export const EDIT_PRODUCT = "EDIT_PRODUCT";
+export const PROCESS_FETCH = "PROCESS_FETCH";
+export const SUCCESS_FETCH = "SUCCESS_FETCH";
+export const ERROR_FETCH = "ERROR_FETCH";
