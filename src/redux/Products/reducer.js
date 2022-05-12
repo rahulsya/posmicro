@@ -5,7 +5,6 @@ import {
   ERROR_FETCH,
   PROCESS_FETCH,
   FETCH_PRODUCT,
-  SUCCESS_FETCH,
 } from "./constant";
 
 const initialState = {
