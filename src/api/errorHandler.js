@@ -1,5 +1,6 @@
 import axios, { setAuthorizationHeader } from "./axiosConfig";
 import users from "./users";
+import AlertToast from "../utils/toast";
 
 export default function errorHandler(error) {
   if (error) {
@@ -7,9 +8,18 @@ export default function errorHandler(error) {
     if (error.response) {
       //   console.log(error.response);
       const origialRequest = error.config;
-      if (error.response.status === 500)
+      if (error.response.status === 500) {
         message = "Something went terribly wrong";
-      else if (error.response.status === 403 && !origialRequest._retry) {
+      } else if (
+        error.response.status === 403 &&
+        origialRequest.url === "/refresh_token"
+      ) {
+        console.log("test");
+        window.location.href = "/login";
+        localStorage.removeItem("tokens");
+        return Promise.reject(error);
+      } else if (error.response.status === 403 && !origialRequest._retry) {
+        // console.log(origialRequest);
         origialRequest._retry = true;
         const session = localStorage["tokens"]
           ? JSON.parse(localStorage["tokens"])
@@ -36,13 +46,16 @@ export default function errorHandler(error) {
               window.location.href = "/login";
               localStorage.removeItem("tokens");
             }
+          })
+          .catch((err) => {
+            console.log(err.response);
           });
       } else {
         message = error.response.data.message;
-        console.log(error.response.data.message);
+        // console.log(error.response.data.message);
       }
 
-      if (typeof message === "string") console.log("error alert toast here");
+      if (typeof message === "string") AlertToast("error", "something errors");
 
       return Promise.reject(error);
     }
