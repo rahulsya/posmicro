@@ -4,6 +4,10 @@ export const products = async () => {
   return await axios.get("/products");
 };
 
+export const productDetail = async (id) => {
+  return await axios.get(`products/${id}`);
+};
+
 export const addproducts = async (data) => {
   return await axios.post("/products", data);
 };
@@ -13,4 +17,8 @@ export const editProduct = async (id, data) => {
 };
 export const deleteProduct = async (id) => {
   return await axios.delete(`/products/${id}`);
+};
+
+export const updateStock = async (data) => {
+  return await axios.post(`/products/stock`, { payload: data });
 };
