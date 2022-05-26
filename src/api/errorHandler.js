@@ -14,9 +14,9 @@ export default function errorHandler(error) {
         error.response.status === 403 &&
         origialRequest.url === "/refresh_token"
       ) {
-        console.log("test");
         window.location.href = "/login";
         localStorage.removeItem("tokens");
+        AlertToast("error", "Session Token Is Expired");
         return Promise.reject(error);
       } else if (error.response.status === 403 && !origialRequest._retry) {
         // console.log(origialRequest);
