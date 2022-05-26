@@ -12,6 +12,7 @@ function ProductItem({
   return (
     <>
       <div
+        key={item.id}
         onClick={onClick}
         className="px-3 py-3 bg-white rounded-xl flex flex-col flex-wrap cursor-pointer hover:shadow-lg"
       >
