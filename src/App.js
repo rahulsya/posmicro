@@ -32,7 +32,7 @@ function App() {
         <Route path="/profile" element={<Profile />} />
         <Route path="/shipment" element={<Shipment />} />
         <Route path="/order-history" element={<OrderHistory />} />
-        <Route path="/detail-order" element={<DetailOrderHistory />} />
+        <Route path="/detail-order/:id" element={<DetailOrderHistory />} />
       </Routes>
       <ToastContainer />
     </Provider>
