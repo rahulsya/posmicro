@@ -60,10 +60,11 @@ function Products() {
             />
           </div>
           <div className="grid grid-cols-2 lg:grid-cols-4 md:grid-cols-3 gap-4 ">
-            {products.data?.map((item) => {
+            {products.data?.map((item, index) => {
               return (
                 <>
                   <ProductItem
+                    key={index}
                     actionButtons
                     actionEdit={() => {
                       setShowFromEdit(true);
@@ -74,7 +75,6 @@ function Products() {
                     actionDelete={() => {
                       dispatch(DeleteProduct(item.id));
                     }}
-                    key={item.id}
                     item={item}
                   />
                 </>
