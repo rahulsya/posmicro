@@ -1,9 +1,25 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Navbar, Header } from "../../components";
 import OrderItem from "./OrderItem";
 import FilterOrder from "./FilterOrder";
+import AlertToast from "../../utils/toast";
+// api
+import order from "../../api/orders";
 
 function OrderHistory() {
+  const [orders, setOrders] = useState([]);
+
+  useEffect(() => {
+    order
+      .order()
+      .then((response) => {
+        setOrders(response.data);
+      })
+      .catch((err) => {
+        AlertToast("error", err.message);
+      });
+  }, []);
+
   return (
     <>
       <div className="flex flex-row min-h-screen bg-slate-100">
@@ -15,8 +31,8 @@ function OrderHistory() {
               <FilterOrder />
 
               <div className="mt-3">
-                {[1, 2, 3, 4].map((item, index) => {
-                  return <OrderItem />;
+                {orders?.map((item, index) => {
+                  return <OrderItem data={item} key={index} />;
                 })}
               </div>
             </div>
