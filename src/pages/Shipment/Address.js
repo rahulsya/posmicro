@@ -1,16 +1,14 @@
 import React from "react";
 
-function Address() {
+function Address({ data }) {
   return (
     <>
       <div className="text-lg font-semibold">Shipping Address</div>
       <hr />
       <div className="pt-3">
-        <p className="font-semibold">Rahulsyaban</p>
+        <p className="font-semibold">{data?.name}</p>
         <p>6285718927573</p>
-        <div>
-          Akshya Nagar 1st Block 1st Cross, Rammurthy nagar, Bangalore-560016
-        </div>
+        <div>{data?.address}</div>
       </div>
     </>
   );

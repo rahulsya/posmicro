@@ -16,6 +16,11 @@ function Courier({ DataState }) {
   const [couriers, setCouriers] = useState([]);
   const [selectedService, setSelectedService] = useState(null);
 
+  const [destination, setDestination] = useState({
+    cityName: "",
+    provinceName: "",
+  });
+
   useEffect(() => {
     courier
       .getProvince()
@@ -46,6 +51,8 @@ function Courier({ DataState }) {
       });
   };
 
+  // set state calculate cost
+  const [status, setStatus] = useState("idle");
   const courierCost = (courierName) => {
     const payload = {
       origin: 114, //city id for denpasar
@@ -54,23 +61,29 @@ function Courier({ DataState }) {
       courier: courierName,
     };
 
+    setStatus("loading");
     courier
       .cost(payload)
       .then((res) => {
+        setStatus("success");
         // console.log(res?.rajaongkir?.results[0]);
         setCouriers(res?.rajaongkir?.results[0]?.costs);
       })
-      .catch((err) =>
+      .catch((err) => {
+        setStatus("error");
         toast.error(`${err.message}`, {
           position: "bottom-right",
           autoClose: 2000,
-        })
-      );
+        });
+      });
   };
 
   return (
     <>
       <div className="text-lg pt-4 font-semibold">Select Courier</div>
+      <div className="text-sm font-semibold py-1">
+        Destination : {`${destination?.provinceName}, `} {destination?.cityName}
+      </div>
       <hr />
       <div className="flex flex-row">
         <div className="py-3">
@@ -80,12 +93,21 @@ function Courier({ DataState }) {
           <select
             className="w-full py-3 px-4 rounded-md p-3 border-[1px]"
             id="province"
-            onChange={(e) => GetCities(e?.target?.value)}
+            onChange={(e) => {
+              setDestination({
+                ...destination,
+                provinceName: e.target.value.split(".")[1],
+              });
+              GetCities(e?.target?.value);
+            }}
           >
             <option value="1">Select Province</option>
             {provinces?.map((province, index) => {
               return (
-                <option key={index} value={province.province_id}>
+                <option
+                  key={index}
+                  value={`${province.province_id}.${province.province}`}
+                >
                   {province.province}
                 </option>
               );
@@ -102,11 +124,20 @@ function Courier({ DataState }) {
               <select
                 className="w-full py-3 px-4 rounded-md p-3 border-[1px]"
                 id="city"
-                onChange={(e) => setCityId(e?.target?.value)}
+                onChange={(e) => {
+                  setDestination({
+                    ...destination,
+                    cityName: e.target.value.split(".")[1],
+                  });
+                  setCityId(e?.target?.value);
+                }}
               >
                 {cities.map((city, index) => {
                   return (
-                    <option key={index} value={city.city_id}>
+                    <option
+                      key={index}
+                      value={`${city.city_id}.${city.city_name}`}
+                    >
                       {city.city_name}
                     </option>
                   );
@@ -143,6 +174,11 @@ function Courier({ DataState }) {
 
       {/* courier list */}
       <div className="font-semibold">Courier List</div>
+      {status === "loading" && (
+        <div className="text-gray-700 text-xs py-1 px-2 font-semibold">
+          Loading...
+        </div>
+      )}
       {couriers.length > 0 && (
         <div className="flex flex-row">
           {couriers.map((courier, index) => {
@@ -154,10 +190,11 @@ function Courier({ DataState }) {
                   setSelectedService(courier);
                   setDataShipment({
                     ...DataShipment,
+                    shipping_destination: `${destination.provinceName}, ${destination.cityName}`,
                     courier_service: `${service} - (${courier?.service}) - ${courier?.description}`,
-                    estimation: cost[0]?.etd,
+                    shipping_estimation: cost[0]?.etd,
                     total_shipping: cost[0]?.value,
-                    total_price: sumPrice(carts) + cost[0]?.value,
+                    total_amount: sumPrice(carts) + cost[0]?.value,
                   });
                 }}
                 className={`mr-2 cursor-pointer py-4 px-4 ${
