@@ -11,7 +11,7 @@ function OrderHistory() {
 
   useEffect(() => {
     order
-      .order()
+      .order({ status: "all" })
       .then((response) => {
         setOrders(response.data);
       })
@@ -28,7 +28,7 @@ function OrderHistory() {
           <Header title="Order History"></Header>
           <div className="mt-4 flex flex-col md:flex-row">
             <div className="w-full px-4 py-4 bg-white shadow-lg border rounded-lg">
-              <FilterOrder />
+              <FilterOrder dataState={{ setOrders }} />
 
               <div className="mt-3">
                 {orders?.map((item, index) => {

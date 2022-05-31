@@ -1,8 +1,26 @@
-import React from "react";
-import { Input, Button } from "../../components";
-import { SearchIC } from "../../assets/icons";
+import React, { useState } from "react";
+import { Input } from "../../components";
+import ToastAlert from "../../utils/toast";
+import orders from "../../api/orders";
 
-function FilterOrder() {
+const statusOrders = ["all", "success", "process", "cancel"];
+
+function FilterOrder({ dataState }) {
+  const { setOrders } = dataState;
+  const [status, setStatus] = useState(statusOrders[0]);
+  const [date, setDate] = useState(null);
+
+  const HandleChange = (params) => {
+    orders
+      .order({ status: params.status, date: params.date })
+      .then((response) => {
+        setOrders(response.data);
+      })
+      .catch((err) => {
+        ToastAlert("error", err.message);
+      });
+  };
+
   return (
     <>
       <div>
@@ -10,31 +28,35 @@ function FilterOrder() {
         <div className="mt-3 w-full lg:w-1/2">
           <div className="flex flex-row items-center">
             <Input
-              name="keyword"
-              title="Search Order"
-              placeholder="Search Order"
+              onChange={({ target }) => {
+                setDate(target.value);
+                HandleChange({ status, date: target.value });
+              }}
+              title="Date Order"
+              type="date"
             />
-            <div className="px-1" />
-            <Input title="Date Order" type="date" />
-            <div className="mx-3 mt-3 px-6 py-3 border border-2 border-green-500 hover:shadow-lg bg-white rounded-lg cursor-pointer">
-              <SearchIC />
-            </div>
           </div>
         </div>
         <div className="flex flex-row items-center">
           <div className="font-semibold mr-4">Status</div>
-          <div className="cursor-pointer px-4 py-2 bg-green-100 text-green-700 border border-green-600 rounded-2xl mx-1">
-            All
-          </div>
-          <div className="cursor-pointer px-2 text-gray-600 py-2 border rounded-2xl mx-1">
-            Success
-          </div>
-          <div className="cursor-pointer px-2 text-gray-600 py-2 border rounded-2xl mx-1">
-            Process
-          </div>
-          <div className="cursor-pointer px-2 text-gray-600 py-2 border rounded-2xl mx-1">
-            Cancel
-          </div>
+          {statusOrders.map((item, index) => {
+            return (
+              <div
+                key={index}
+                onClick={() => {
+                  setStatus(item);
+                  HandleChange({ status: item, date });
+                }}
+                className={`cursor-pointer px-4 py-2 ${
+                  status === item
+                    ? `bg-green-100 text-green-700 border-green-600`
+                    : "bg-gray-50 text-gray-800"
+                } border rounded-2xl mx-1`}
+              >
+                {item}
+              </div>
+            );
+          })}
         </div>
       </div>
     </>
