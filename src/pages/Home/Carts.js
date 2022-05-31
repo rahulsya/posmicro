@@ -19,7 +19,6 @@ function Carts() {
   const [shipment, setShipment] = useState("cod");
 
   const onSubmit = async () => {
-    console.log("test");
     const order = {
       id: 8,
       total_price: 4000,
@@ -28,34 +27,38 @@ function Carts() {
       name: "rahul",
       email: "rahulsyaban666@gmail.com",
     };
+    if (currentPayment === "cash") {
+      console.log("call api ");
+    } else {
+      // open payment gateway
+      const { token } = await orders.payment({ order, user });
 
-    const { token } = await orders.payment({ order, user });
-
-    if (!token) {
-      AlertToast("error", "Payment is fail");
-      return;
+      if (!token) {
+        AlertToast("error", "Payment is fail");
+        return;
+      }
+      window.snap.pay(token, {
+        onSuccess: function (result) {
+          /* You may add your own implementation here */
+          alert("payment success!");
+          console.log(result);
+        },
+        onPending: function (result) {
+          /* You may add your own implementation here */
+          alert("wating your payment!");
+          console.log(result);
+        },
+        onError: function (result) {
+          /* You may add your own implementation here */
+          alert("payment failed!");
+          console.log(result);
+        },
+        onClose: function () {
+          /* You may add your own implementation here */
+          alert("you closed the popup without finishing the payment");
+        },
+      });
     }
-    window.snap.pay(token, {
-      onSuccess: function (result) {
-        /* You may add your own implementation here */
-        alert("payment success!");
-        console.log(result);
-      },
-      onPending: function (result) {
-        /* You may add your own implementation here */
-        alert("wating your payment!");
-        console.log(result);
-      },
-      onError: function (result) {
-        /* You may add your own implementation here */
-        alert("payment failed!");
-        console.log(result);
-      },
-      onClose: function () {
-        /* You may add your own implementation here */
-        alert("you closed the popup without finishing the payment");
-      },
-    });
   };
 
   return (
@@ -99,18 +102,22 @@ function Carts() {
         />
         <hr />
         <div className="mb-6">
-          {shipment === "cod" ? (
-            <Button
-              onPress={onSubmit}
-              type="success"
-              title="Complete Transactions"
-            />
-          ) : (
-            <Button
-              onPress={() => navigate("/shipment")}
-              type="success"
-              title="Complete Shipment"
-            />
+          {carts.length > 0 && (
+            <>
+              {shipment === "cod" ? (
+                <Button
+                  onPress={onSubmit}
+                  type="success"
+                  title="Complete Transactions"
+                />
+              ) : (
+                <Button
+                  onPress={() => navigate("/shipment")}
+                  type="success"
+                  title="Complete Shipment"
+                />
+              )}
+            </>
           )}
         </div>
       </div>

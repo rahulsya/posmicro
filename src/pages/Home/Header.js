@@ -1,28 +1,61 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { Header as Title } from "../../components";
+import { categories } from "../../api/products/category";
 
-function Header() {
+function Header({ dataState }) {
+  const { params, setParams } = dataState;
+
+  const [activeCategory, setActiveCategory] = useState(
+    params.category || "all"
+  );
+  const [category, setCategory] = useState([]);
+
+  useEffect(() => {
+    categories()
+      .then((res) => {
+        const { data } = res;
+        setCategory(data);
+      })
+      .catch((err) => console.log(err));
+  }, []);
+
+  const handleClickCategory = (item) => {
+    setActiveCategory(item);
+    setParams((state) => ({ ...state, category: item, page: 1 }));
+  };
+
   return (
-    <>
-      <div className="flex flex-col font-bold text-3xl">
-        <div className="text-gray-700 pb-2">Flyover Stickers</div>
-        <div className="text-gray-600 text-sm font-normal">
-          Saturday, 16 April 2022
-        </div>
-        {/* <hr /> */}
-      </div>
-
-      {/* categories */}
+    <Title title="Flyover Stickers">
       <div className="mt-8 mb-8">
         <div className="w-3/4 lg:w-full overflow-x-auto flex flex-row text-gray-500 ">
-          <div className="cursor-pointer font-bold text-blue-500 pr-6 underline underline-offset-4">
+          <div
+            onClick={() => handleClickCategory("all")}
+            className={`cursor-pointer ${
+              activeCategory === "all"
+                ? "font-bold text-blue-500 underline"
+                : ""
+            } pr-6 underline-offset-4`}
+          >
             All
           </div>
-          <div className="cursor-pointer pr-6">Sticker Material</div>
-          <div className="cursor-pointer pr-6">Sticker Cutting</div>
-          <div className="cursor-pointer pr-6">Accessories</div>
+          {category.map((item, index) => {
+            return (
+              <div
+                onClick={() => handleClickCategory(item.id)}
+                key={index}
+                className={`capitalize cursor-pointer pr-6 ${
+                  activeCategory === item.id
+                    ? "font-bold text-blue-500 underline"
+                    : ""
+                } `}
+              >
+                {item.name}
+              </div>
+            );
+          })}
         </div>
       </div>
-    </>
+    </Title>
   );
 }
 
