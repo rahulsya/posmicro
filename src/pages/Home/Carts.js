@@ -7,9 +7,9 @@ import { addItem, removeItem, clearItem } from "../../redux/Cart/action";
 import { useNavigate } from "react-router-dom";
 
 import sumPrice from "../../utils/sum-price";
+import AlertToast from "../../utils/toast";
 import { formatNumber } from "../../utils/format-rupiah";
-
-import axios from "axios";
+import orders from "../../api/orders";
 
 function Carts() {
   let navigate = useNavigate();
@@ -18,21 +18,44 @@ function Carts() {
   const [currentPayment, setCurrentPayment] = useState("cash");
   const [shipment, setShipment] = useState("cod");
 
-  const onSubmit = () => {
+  const onSubmit = async () => {
     console.log("test");
-    axios
-      .post(`http://localhost:4003/order`, {
-        products: carts,
-        total_amount: sumPrice(carts),
-        total_shipping: null,
-      })
-      .then((res) => {
-        console.log(res.data);
-        dispatch(clearItem());
-      })
-      .catch((err) => {
-        console.log(err.response);
-      });
+    const order = {
+      id: 8,
+      total_price: 4000,
+    };
+    const user = {
+      name: "rahul",
+      email: "rahulsyaban666@gmail.com",
+    };
+
+    const { token } = await orders.payment({ order, user });
+
+    if (!token) {
+      AlertToast("error", "Payment is fail");
+      return;
+    }
+    window.snap.pay(token, {
+      onSuccess: function (result) {
+        /* You may add your own implementation here */
+        alert("payment success!");
+        console.log(result);
+      },
+      onPending: function (result) {
+        /* You may add your own implementation here */
+        alert("wating your payment!");
+        console.log(result);
+      },
+      onError: function (result) {
+        /* You may add your own implementation here */
+        alert("payment failed!");
+        console.log(result);
+      },
+      onClose: function () {
+        /* You may add your own implementation here */
+        alert("you closed the popup without finishing the payment");
+      },
+    });
   };
 
   return (
