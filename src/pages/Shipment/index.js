@@ -32,7 +32,7 @@ function Shipment() {
   const onSubmitPayment = () => {
     console.log(DataShipment);
     if (DataShipment.courier_service !== "" && DataUser !== null) {
-      // setStatus("process");
+      setStatus("process");
       orders
         .create_order({
           products: carts,
@@ -46,14 +46,14 @@ function Shipment() {
             position: "bottom-right",
           });
           dispatch(clearItem());
-          // setStatus("success");
+          setStatus("success");
         })
         .catch((err) => {
           Toast("error", err.message, {
             autoClose: 1000,
             position: "bottom-right",
           });
-          // setStatus("error");
+          setStatus("error");
         });
     } else {
       Toast("error", "Please Complete The Order Form");
