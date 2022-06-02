@@ -5,3 +5,6 @@ export const EDIT_PRODUCT = "EDIT_PRODUCT";
 export const PROCESS_FETCH = "PROCESS_FETCH";
 export const SUCCESS_FETCH = "SUCCESS_FETCH";
 export const ERROR_FETCH = "ERROR_FETCH";
+export const NEXT_PAGE = "NEXT_PAGE";
+export const PREV_PAGE = "PREV_PAGE";
+export const IS_EMPTY = "IS_EMPTY";

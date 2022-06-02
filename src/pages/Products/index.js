@@ -5,7 +5,12 @@ import CategoryForm from "./categoryForm";
 // redux
 import { useDispatch, useSelector } from "react-redux";
 import { fetchCategories } from "../../redux/Categories/action";
-import { fetchProduct, DeleteProduct } from "../../redux/Products/action";
+import {
+  fetchProduct,
+  DeleteProduct,
+  NextPages,
+  PrevPages,
+} from "../../redux/Products/action";
 
 function Products() {
   const dispatch = useDispatch();
@@ -19,11 +24,8 @@ function Products() {
   const [dataProduct, setDataProduct] = useState({});
 
   useEffect(() => {
-    if (!products.data.length) {
-      dispatch(fetchProduct());
-    }
-    return;
-  }, [products.data, dispatch]);
+    dispatch(fetchProduct());
+  }, [dispatch, products.page]);
 
   useEffect(() => {
     if (!category.data.length) {
@@ -41,28 +43,30 @@ function Products() {
             Products Management
           </div>
           <hr className="pb-3" />
-          <div className="actions flex flex-row mb-5">
-            <Button
-              title="Add Product"
-              onPress={() => {
-                setShowFormInput(true);
-                setShowFromEdit(false);
-              }}
-            />
-            <Button
-              onPress={() => {
-                // setShowFromEdit(false);
-                // setShowFormInput(false);
-                setShowFormCategory(true);
-              }}
-              bg="bg-yellow-600"
-              title="Manage Categories"
-            />
+          <div className="actions flex flex-row justify-between mb-5">
+            <div>
+              <Button
+                title="Add Product"
+                onPress={() => {
+                  setShowFormInput(true);
+                  setShowFromEdit(false);
+                }}
+              />
+              <Button
+                onPress={() => {
+                  // setShowFromEdit(false);
+                  // setShowFormInput(false);
+                  setShowFormCategory(true);
+                }}
+                bg="bg-yellow-600"
+                title="Manage Categories"
+              />
+            </div>
           </div>
-          <div className="grid grid-cols-2 lg:grid-cols-4 md:grid-cols-3 gap-4 ">
-            {products.data?.map((item, index) => {
-              return (
-                <>
+          <div className="flex flex-col">
+            <div className="grid grid-cols-2 lg:grid-cols-4 md:grid-cols-3 gap-4 ">
+              {products.data?.map((item, index) => {
+                return (
                   <ProductItem
                     key={index}
                     actionButtons
@@ -77,9 +81,28 @@ function Products() {
                     }}
                     item={item}
                   />
-                </>
-              );
-            })}
+                );
+              })}
+            </div>
+
+            <div className="flex flex-row my-4 justify-end">
+              <Button
+                disabled={products.page === 1 ? true : false}
+                onPress={() => {
+                  dispatch(PrevPages());
+                }}
+                bg="border-2 border-green-400 bg-gray-200 text-gray-600"
+                title="Previous"
+              />
+              <Button
+                disabled={products.isEmpty}
+                onPress={() => {
+                  dispatch(NextPages());
+                }}
+                bg="border-2 border-green-400 bg-gray-200 text-gray-600"
+                title="Next"
+              />
+            </div>
           </div>
         </div>
         {/* form input here */}

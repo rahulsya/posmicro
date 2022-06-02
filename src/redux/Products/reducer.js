@@ -5,11 +5,16 @@ import {
   ERROR_FETCH,
   PROCESS_FETCH,
   FETCH_PRODUCT,
+  PREV_PAGE,
+  NEXT_PAGE,
+  IS_EMPTY,
 } from "./constant";
 
 const initialState = {
   data: [],
   status: "idle",
+  page: 1,
+  isEmpty: false,
 };
 export default function reducer(state = initialState, action) {
   switch (action.type) {
@@ -51,6 +56,18 @@ export default function reducer(state = initialState, action) {
         ...state,
         data: state.data.filter((item) => item.id !== action.id),
       };
+    case NEXT_PAGE:
+      return {
+        ...state,
+        page: state.page + 1,
+      };
+    case PREV_PAGE:
+      return {
+        ...state,
+        page: state.page - 1,
+      };
+    case IS_EMPTY:
+      return { ...state, isEmpty: action.status };
     default:
       return state;
   }
