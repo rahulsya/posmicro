@@ -9,7 +9,9 @@ import {
   Shipment,
   DetailOrderHistory,
   OrderHistory,
+  Register,
 } from "./pages";
+import { GuardRoute } from "./components";
 import { ToastContainer } from "react-toastify";
 
 // redux anjay
@@ -25,14 +27,64 @@ function App() {
   return (
     <Provider store={store}>
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route
+          path="/"
+          element={
+            <GuardRoute>
+              <Home />
+            </GuardRoute>
+          }
+        />
         <Route path="/Login" element={<Login />} />
-        <Route path="/products" element={<Products />} />
-        <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/profile" element={<Profile />} />
-        <Route path="/shipment" element={<Shipment />} />
-        <Route path="/order-history" element={<OrderHistory />} />
-        <Route path="/detail-order/:id" element={<DetailOrderHistory />} />
+        <Route path="/register" element={<Register />} />
+        <Route
+          path="/products"
+          element={
+            <GuardRoute>
+              <Products />
+            </GuardRoute>
+          }
+        />
+        <Route
+          path="/dashboard"
+          element={
+            <GuardRoute>
+              <Dashboard />
+            </GuardRoute>
+          }
+        />
+        <Route
+          path="/profile"
+          element={
+            <GuardRoute>
+              <Profile />
+            </GuardRoute>
+          }
+        />
+        <Route
+          path="/shipment"
+          element={
+            <GuardRoute>
+              <Shipment />
+            </GuardRoute>
+          }
+        />
+        <Route
+          path="/order-history"
+          element={
+            <GuardRoute>
+              <OrderHistory />
+            </GuardRoute>
+          }
+        />
+        <Route
+          path="/detail-order/:id"
+          element={
+            <GuardRoute>
+              <DetailOrderHistory />
+            </GuardRoute>
+          }
+        />
       </Routes>
       <ToastContainer />
     </Provider>
