@@ -2,7 +2,7 @@ import axios, { setAuthorizationHeader } from "./axiosConfig";
 import users from "./users";
 import AlertToast from "../utils/toast";
 
-export default function errorHandler(error) {
+export default function ErrorHandler(error) {
   if (error) {
     let message;
     if (error.response) {
@@ -14,9 +14,9 @@ export default function errorHandler(error) {
         error.response.status === 403 &&
         origialRequest.url === "/refresh_token"
       ) {
+        AlertToast("error", "Session Token Is Expired");
         window.location.href = "/login";
         localStorage.removeItem("tokens");
-        AlertToast("error", "Session Token Is Expired");
         return Promise.reject(error);
       } else if (error.response.status === 403 && !origialRequest._retry) {
         // console.log(origialRequest);
