@@ -1,6 +1,6 @@
 import React from "react";
 
-function Button({ title, type, bg, color, onPress }) {
+function Button({ title, type, bg, color, onPress, disabled = false }) {
   if (type === "btn-completed") {
     return (
       <button className="rounded-2xl bg-green-800 text-green-200 py-1 px-4">
@@ -41,6 +41,7 @@ function Button({ title, type, bg, color, onPress }) {
   }
   return (
     <button
+      disabled={disabled}
       onClick={onPress}
       className={`px-4 py-2 rounded-md text-center ${
         bg ? bg : "bg-blue-500"
