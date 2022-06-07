@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { CartItem, Button } from "../../components";
 import { EmptyIL } from "../../assets/icons";
 
 import { useSelector, useDispatch } from "react-redux";
+import { getDataAuth } from "../../redux/Auth/actions";
 import { addItem, removeItem, clearItem } from "../../redux/Cart/action";
 import { useNavigate } from "react-router-dom";
 
@@ -10,56 +11,134 @@ import sumPrice from "../../utils/sum-price";
 import AlertToast from "../../utils/toast";
 import { formatNumber } from "../../utils/format-rupiah";
 import orders from "../../api/orders";
+import { updateStock } from "../../api/products/product";
 
 function Carts() {
   let navigate = useNavigate();
   const dispatch = useDispatch();
+  const Auth = useSelector((state) => state.auth);
   const carts = useSelector((state) => state.cart);
   const [currentPayment, setCurrentPayment] = useState("cash");
   const [shipment, setShipment] = useState("cod");
 
   const onSubmit = async () => {
-    const order = {
-      id: 8,
-      total_price: 4000,
-    };
     const user = {
-      name: "rahul",
-      email: "rahulsyaban666@gmail.com",
+      name: Auth.dataAuth?.name,
+      email: Auth.dataAuth?.email,
     };
-    if (currentPayment === "cash") {
-      console.log("call api ");
+    if (currentPayment === "noncash") {
+      orders
+        .create_order({
+          products: carts,
+          total_amount: sumPrice(carts),
+          payment_method: "NONCASH",
+          user_id: Auth.dataAuth?.id,
+        })
+        .then((response) => {
+          const { data } = response;
+          // update stock products
+          manageOrders(carts);
+          // send to paymentgateway
+          const payload = {
+            user,
+            order: {
+              id: data?.id,
+              invoice: data?.invoice_number,
+              total_price: data?.total_price,
+            },
+          };
+          shapPayment(payload);
+          dispatch(clearItem());
+        })
+        .catch((err) => {
+          AlertToast("error", err.message);
+        });
     } else {
-      // open payment gateway
-      const { token } = await orders.payment({ order, user });
-
-      if (!token) {
-        AlertToast("error", "Payment is fail");
-        return;
-      }
-      window.snap.pay(token, {
-        onSuccess: function (result) {
-          /* You may add your own implementation here */
-          alert("payment success!");
-          console.log(result);
-        },
-        onPending: function (result) {
-          /* You may add your own implementation here */
-          alert("wating your payment!");
-          console.log(result);
-        },
-        onError: function (result) {
-          /* You may add your own implementation here */
-          alert("payment failed!");
-          console.log(result);
-        },
-        onClose: function () {
-          /* You may add your own implementation here */
-          alert("you closed the popup without finishing the payment");
-        },
-      });
+      orders
+        .create_order({
+          products: carts,
+          total_amount: sumPrice(carts),
+          payment_method: "CASH",
+          user_id: Auth.dataAuth?.id,
+        })
+        .then((response) => {
+          // const { data } = response;
+          // update stock products
+          manageOrders(carts);
+          dispatch(clearItem());
+          AlertToast("success", "success, order created");
+        })
+        .catch((err) => {
+          AlertToast("error", err.message);
+        });
     }
   };
+
+  const shapPayment = async (data) => {
+    const { token } = await orders.payment(data);
+    if (!token) {
+      AlertToast("error", "Payment is fail");
+      return;
+    }
+    window.snap.pay(token, {
+      onSuccess: function (result) {
+        /* You may add your own implementation here */
+        alert("payment success!");
+        // console.log(result);
+        orders
+          .update_order(data?.order?.id, { payment_status: "SUCCESS" })
+          .then((response) => {
+            AlertToast("success", "payment completed");
+            navigate(`/detail-order/${data?.order?.id}`);
+          });
+      },
+      onPending: function (result) {
+        /* You may add your own implementation here */
+        alert("wating your payment!");
+        AlertToast("success", "payment completed");
+        navigate(`/detail-order/${data?.order?.id}`);
+        console.log(result);
+      },
+      onError: function (result) {
+        /* You may add your own implementation here */
+        alert("payment failed!");
+        console.log(result);
+      },
+      onClose: function () {
+        /* You may add your own implementation here */
+        orders
+          .update_order(data?.order?.id, {
+            payment_status: "CANCEL",
+            status: "CANCEL",
+          })
+          .then((response) => {
+            AlertToast("success", "payment completed");
+            navigate(`/detail-order/${data?.order?.id}`);
+          });
+        alert("you closed the popup without finishing the payment");
+      },
+    });
+  };
+
+  const manageOrders = (data) => {
+    updateStock(data)
+      .then((response) => {
+        AlertToast("success", response.message, {
+          autoClose: 1000,
+          position: "bottom-right",
+        });
+      })
+      .catch((err) => {
+        AlertToast("error", err.message, {
+          autoClose: 1000,
+          position: "bottom-right",
+        });
+      });
+  };
+
+  useEffect(() => {
+    dispatch(getDataAuth());
+  }, [dispatch]);
 
   return (
     <>
