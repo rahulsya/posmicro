@@ -1,8 +1,21 @@
-import { SET_AUTH, CLEAR_AUTH, LOGOUT, SET_TOKEN } from "./constants";
+import {
+  SET_AUTH,
+  CLEAR_AUTH,
+  LOGOUT,
+  SET_TOKEN,
+  GET_DATA_AUTH,
+} from "./constants";
 
 const initial_state = localStorage.getItem("tokens")
   ? JSON.parse(localStorage.getItem("tokens"))
-  : { email: "", refresh_token: "", status: "", token: "", role: "" };
+  : {
+      email: "",
+      refresh_token: "",
+      status: "",
+      token: "",
+      role: "",
+      dataAuth: {},
+    };
 
 export default function reducer(state = initial_state, action) {
   switch (action.type) {
@@ -10,6 +23,11 @@ export default function reducer(state = initial_state, action) {
       return {
         ...state,
         ...action.data,
+      };
+    case GET_DATA_AUTH:
+      return {
+        ...state,
+        dataAuth: { ...state.dataAuth, ...action.data },
       };
     case SET_TOKEN:
       return {
