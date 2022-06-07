@@ -20,6 +20,7 @@ function Address({ data }) {
       <hr />
       <div className="pt-3">
         <p className="font-semibold">{DataUser?.name}</p>
+        <p>{DataUser?.email}</p>
         <p>{DataUser?.phone_number}</p>
       </div>
       <div className="py-2">Select Address</div>

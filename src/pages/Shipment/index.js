@@ -5,6 +5,7 @@ import Address from "./Address";
 import Courier from "./Courier";
 import SummaryCart from "./SummaryCart";
 import { useSelector, useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { addItem, removeItem, clearItem } from "../../redux/Cart/action";
 // import { toast } from "react-toastify";
 import Toast from "../../utils/toast";
@@ -15,6 +16,7 @@ import { updateStock } from "../../api/products/product";
 
 function Shipment() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const carts = useSelector((state) => state.cart);
 
   const [status, setStatus] = useState("idle");
@@ -31,7 +33,11 @@ function Shipment() {
   });
 
   const onSubmitPayment = () => {
-    if (DataShipment.courier_service !== "" && DataUser !== null) {
+    if (
+      DataShipment.courier_service !== "" &&
+      DataUser !== null &&
+      DataShipment.address_id !== ""
+    ) {
       setStatus("process");
       orders
         .create_order({
@@ -40,13 +46,26 @@ function Shipment() {
           user_id: DataUser.id,
         })
         .then((response) => {
-          manageOrders(carts);
           Toast("success", response.message, {
             autoClose: 1000,
             position: "bottom-right",
           });
+          manageOrders(carts);
           dispatch(clearItem());
-          setStatus("success");
+          // call snap payment
+          const { data } = response;
+          const payload = {
+            user: {
+              name: DataUser?.name,
+              email: DataUser?.email,
+            },
+            order: {
+              id: data?.id,
+              invoice: data?.invoice_number,
+              total_price: data?.total_price,
+            },
+          };
+          shapPayment(payload);
         })
         .catch((err) => {
           Toast("error", err.message, {
@@ -74,6 +93,62 @@ function Shipment() {
           position: "bottom-right",
         });
       });
+  };
+
+  const shapPayment = async (data) => {
+    const { token } = await orders.payment(data);
+    if (!token) {
+      Toast("error", "Payment is fail");
+      return;
+    }
+    window.snap.pay(token, {
+      onSuccess: function (result) {
+        /* You may add your own implementation here */
+        alert("payment success!");
+        // console.log(result);
+        orders
+          .update_order(data?.order?.id, { payment_status: "SUCCESS" })
+          .then((response) => {
+            Toast("success", "payment completed");
+            navigate(`/detail-order/${data?.order?.id}`);
+          });
+        setStatus("success");
+      },
+      onPending: function (result) {
+        /* You may add your own implementation here */
+        alert("wating your payment!");
+        Toast("success", "payment completed");
+        navigate(`/detail-order/${data?.order?.id}`);
+        console.log(result);
+      },
+      onError: function (result) {
+        /* You may add your own implementation here */
+        orders
+          .update_order(data?.order?.id, {
+            payment_status: "CANCEL",
+            status: "CANCEL",
+          })
+          .then((response) => {
+            Toast("success", "payment completed");
+            navigate(`/detail-order/${data?.order?.id}`);
+          });
+        alert("payment failed!");
+        console.log(result);
+      },
+      onClose: function () {
+        /* You may add your own implementation here */
+        orders
+          .update_order(data?.order?.id, {
+            payment_status: "CANCEL",
+            status: "CANCEL",
+          })
+          .then((response) => {
+            Toast("success", "payment completed");
+            navigate(`/detail-order/${data?.order?.id}`);
+          });
+        alert("you closed the popup without finishing the payment");
+      },
+    });
   };
 
   useEffect(() => {
