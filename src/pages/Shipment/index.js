@@ -27,10 +27,10 @@ function Shipment() {
     shipping_destination: "",
     total_amount: 0,
     payment_method: "NONCASH",
+    address_id: "",
   });
 
   const onSubmitPayment = () => {
-    console.log(DataShipment);
     if (DataShipment.courier_service !== "" && DataUser !== null) {
       setStatus("process");
       orders
@@ -103,7 +103,7 @@ function Shipment() {
         {carts.length > 0 && (
           <div className="flex flex-col lg:flex-row">
             <div className="w-full flex-col bg-white shadow-lg py-4 px-4 mt-5 rounded-lg">
-              <Address data={DataUser} />
+              <Address data={{ setDataShipment, DataUser }} />
               <Courier DataState={{ DataShipment, setDataShipment, carts }} />
               {/* products */}
               <div className="text-lg pt-4 font-semibold">Products list</div>
