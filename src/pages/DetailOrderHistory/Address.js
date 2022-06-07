@@ -1,17 +1,22 @@
 import React from "react";
 import dateFormat from "dateformat";
 
-function Address({ data, userDetails }) {
+function Address({ address, data, userDetails }) {
   return (
     <div className="pt-3">
       <div>{dateFormat(data?.createdAt, "fullDate")}</div>
       <p className="font-semibold">{userDetails?.name}</p>
       <p>6285718927573</p>
-      <div>{userDetails?.address}</div>
+      {address !== null && (
+        <div className="p-4 border border-green-500 bg-green-100">
+          <div className="font-semibold">{address?.name}</div>
+          <div>{address?.detail_address}</div>
+        </div>
+      )}
       <div>{data?.shipping_destination}</div>
 
       <div className="font-semibold pt-3">Courier</div>
-      <div>Shipping Code : -</div>
+      <div>Shipping Code : {data?.courier_number}</div>
       <div>{data?.courier_service}</div>
       <div>Estimation : {data?.shipping_estimation} day</div>
 

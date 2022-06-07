@@ -1,20 +1,26 @@
 import React, { useState, useEffect } from "react";
-import { Navbar, Header, Input, Button } from "../../components";
+import { Navbar, Header } from "../../components";
 import { useParams } from "react-router-dom";
-import { useForm } from "react-hook-form";
+import { useSelector } from "react-redux";
 
 import { formatNumber } from "../../utils/format-rupiah";
 import AlertToast from "../../utils/toast";
 import order from "../../api/orders";
 import users from "../../api/users";
+// address
+import Api from "../../api/address";
 import OrderItem from "./OrderItem";
 import Address from "./Address";
+import ConfirmForm from "./ConfirmForm";
 
 function DetailOrderHistory() {
   const params = useParams();
   const [orderDetail, setOrderDetail] = useState(null);
   const [productOrders, setProductOrders] = useState([]);
   const [userDetails, setUserDetails] = useState(null);
+  const [addressDetails, setAddressDetails] = useState(null);
+
+  const auth = useSelector((state) => state.auth);
 
   useEffect(() => {
     if (params.id) {
@@ -33,6 +39,15 @@ function DetailOrderHistory() {
               AlertToast("error", err.message);
             });
 
+          // get address order
+          if (response.order.address_id !== "") {
+            Api.detail(response.order.address_id)
+              .then((response) => {
+                setAddressDetails(response.address);
+              })
+              .catch((err) => console.log(err));
+          }
+
           // get users profile
           users
             .getUser(response.order.user_id)
@@ -50,12 +65,7 @@ function DetailOrderHistory() {
     return;
   }, [params]);
 
-  const statusOrder = ["COMPLETED", "PROCESS", "CANCEL"];
-  const { register, handleSubmit } = useForm();
-
-  const onUpdateOrder = (data) => {
-    console.log(data);
-  };
+  const statusOrder = ["SUCCESS", "PROCESS", "CANCEL"];
 
   return (
     <>
@@ -70,7 +80,11 @@ function DetailOrderHistory() {
                   Shipping Information
                 </div>
                 <hr />
-                <Address userDetails={userDetails} data={orderDetail} />
+                <Address
+                  address={addressDetails}
+                  userDetails={userDetails}
+                  data={orderDetail}
+                />
               </div>
               <div className="text-lg font-semibold mt-5">Detail Product</div>
               <hr />
@@ -110,52 +124,16 @@ function DetailOrderHistory() {
                 </div>
               </div>
               {/* show if user with acces admin  */}
-              <div className="mt-4 bg-white shadow-lg px-4 py-4 rounded-lg">
-                <div className="text-lg font-semibold">Cofirmation Form</div>
-                <hr />
-                <div className="pt-4"></div>
-
-                <form onSubmit={handleSubmit(onUpdateOrder)}>
-                  <Input
-                    {...register("courier_number", { required: true })}
-                    name="courier_number"
-                    title="Update Shipping Number"
-                    placeholder="shipping Number"
-                  />
-                  <div className="">
-                    <label
-                      className="font-semibold text-gray-800"
-                      htmlFor="status_order"
-                    >
-                      Status Order
-                    </label>
-                    <select
-                      {...register("status", { required: true })}
-                      id="status_order"
-                      className="w-full py-3 px-4 rounded-md p-3 border-[1px]"
-                    >
-                      <option value="">Status Order</option>
-                      {statusOrder.map((item) => {
-                        return (
-                          <option
-                            selected={
-                              orderDetail?.status === item ? true : false
-                            }
-                            value={item}
-                          >
-                            {item}
-                          </option>
-                        );
-                      })}
-                    </select>
-                    <Button
-                      bg="bg-green-500 mt-3"
-                      type="btn-wfull"
-                      title="Update Order"
-                    />
-                  </div>
-                </form>
-              </div>
+              {auth.role === "admin" && (
+                <ConfirmForm
+                  dataState={{
+                    statusOrder,
+                    orderDetail,
+                    params,
+                    setOrderDetail,
+                  }}
+                />
+              )}
             </div>
           </div>
         </div>
