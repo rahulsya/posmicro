@@ -1,7 +1,7 @@
 import React from "react";
 import { Input, Button } from "../../components";
 
-function FormAddress({ dataProfile }) {
+function FormProfile({ dataProfile }) {
   const { profile, setProfile } = dataProfile;
   // console.log(profile);
 
@@ -13,7 +13,7 @@ function FormAddress({ dataProfile }) {
   };
 
   return (
-    <div>
+    <div className="bg-white px-4 py-4 rounded shadow w-full lg:w-1/2">
       <div className="text-xl pb-4 font-bold">Update Profile</div>
       <hr className="pb-3" />
       <div className="flex flex-row justify-between">
@@ -32,6 +32,13 @@ function FormAddress({ dataProfile }) {
         />
       </div>
       <Input
+        type="number"
+        onChange={handeOnchange}
+        value={profile?.phone_number}
+        title="Phone Number"
+        name="phone_number"
+      />
+      <Input
         onChange={handeOnchange}
         value={profile?.password}
         type="password"
@@ -39,16 +46,9 @@ function FormAddress({ dataProfile }) {
         name="password"
         placeholder="your new password"
       />
-      <Input
-        onChange={handeOnchange}
-        value={profile?.address}
-        type="text-area"
-        title="Address"
-        name="address"
-      />
       <Button bg="bg-green-500" title="Update Profile" />
     </div>
   );
 }
 
-export default FormAddress;
+export default FormProfile;
