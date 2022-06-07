@@ -1,8 +1,13 @@
 import React from "react";
 import { Input, Button } from "../../components";
+import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import users from "../../api/users";
 import { setAuthorizationHeader } from "../../api/axiosConfig";
+import AlertToast from "../../utils/toast";
+// redux
+import { useDispatch } from "react-redux";
+import { setAuth } from "../../redux/Auth/actions";
 
 function LoginForm() {
   const {
@@ -11,28 +16,29 @@ function LoginForm() {
     formState: { errors },
   } = useForm();
 
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
   const onSubmit = (data) => {
     users
       .login(data)
       .then((response) => {
-        console.log(response);
-        localStorage.setItem(
-          "tokens",
-          JSON.stringify({
-            ...response,
-            email: data.email,
-          })
-        );
+        dispatch(setAuth({ ...response, email: data.email }));
         setAuthorizationHeader(response?.token);
-        // users.details().then((response) => {
-        //   console.log(response);
-        // });
-        // const { data } = response;
-        // console.log(data);
+        getUserDetails();
+        AlertToast("success", "login success");
+        navigate("/");
       })
       .catch((err) => {
-        console.log(err);
+        AlertToast("error", err.message);
       });
+  };
+
+  const getUserDetails = () => {
+    users.details().then((res) => {
+      const { data } = res;
+      dispatch(setAuth({ role: data.role }));
+    });
   };
   return (
     <div className="p-10 border-[1px]">
@@ -60,7 +66,7 @@ function LoginForm() {
           />
         </div>
         <div className="cursor-pointer text-blue-500 font-semibold underline">
-          Forgot Pasword
+          Forgot Password
         </div>
         <div className="mt-5">
           <Button type="btn-wfull" title="Login" />
@@ -68,6 +74,7 @@ function LoginForm() {
       </form>
       <div className="mt-5">
         <Button
+          onPress={() => navigate("/register")}
           bg="text-blue-500 border-[1px]"
           type="btn-wfull"
           title="Sign Up"
