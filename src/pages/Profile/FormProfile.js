@@ -1,15 +1,42 @@
-import React from "react";
+import React, { useState } from "react";
 import { Input, Button } from "../../components";
+import apiuser from "../../api/users";
+import AlertToast from "../../utils/toast";
+// import { useDispatch } from "react-redux";
+// import { setAuth } from "../../redux/Auth/actions";
 
 function FormProfile({ dataProfile }) {
+  // const dispatch = useDispatch();
   const { profile, setProfile } = dataProfile;
-  // console.log(profile);
+  const [tempData, setTempData] = useState({});
 
   const handeOnchange = (e) => {
-    return setProfile((state) => ({
+    setProfile((state) => ({
       ...state,
       [e.target.name]: e.target.value,
     }));
+
+    setTempData((state) => ({
+      ...state,
+      [e.target.name]: e.target.value,
+    }));
+  };
+
+  const updateProfile = () => {
+    apiuser
+      .update(tempData)
+      .then((response) => {
+        AlertToast("success", "Data profile updated");
+        if (response?.data?.email) {
+          // dispatch(setAuth({ email: response?.data?.email }));
+          // localStorage.setItem('tokens')
+          // console.log(response?.data?.email);
+        }
+      })
+      .catch((err) => {
+        // console.log(err.response);
+        AlertToast("error", err?.response?.data?.message);
+      });
   };
 
   return (
@@ -46,7 +73,11 @@ function FormProfile({ dataProfile }) {
         name="password"
         placeholder="your new password"
       />
-      <Button bg="bg-green-500" title="Update Profile" />
+      <Button
+        onPress={() => updateProfile()}
+        bg="bg-green-500"
+        title="Update Profile"
+      />
     </div>
   );
 }
