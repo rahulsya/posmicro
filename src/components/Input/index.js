@@ -1,7 +1,7 @@
 import React from "react";
 
 function InputText(
-  { title, name, placeholder, type, value, onChange, errors },
+  { title, name, placeholder, type, value, onChange, errors, onKeyDown },
   ref
 ) {
   if (type === "file") {
@@ -24,7 +24,10 @@ function InputText(
           className="w-full py-3 px-4 rounded-md border-2 border-gray-300 border-[1px] "
         />
         {errors && (
-          <div className="text-xs text-red-500 font-bold">
+          <div
+            data-testid="error-input"
+            className="text-xs text-red-500 font-bold"
+          >
             {name} is Required
           </div>
         )}
@@ -51,7 +54,10 @@ function InputText(
           className="w-full py-3 px-4 rounded-md border-[1px] "
         />
         {errors && (
-          <div className="text-xs text-red-500 font-bold">
+          <div
+            data-testid="error-input"
+            className="text-xs text-red-500 font-bold"
+          >
             {name} is Required
           </div>
         )}
@@ -66,6 +72,7 @@ function InputText(
           {title}
         </label>
         <input
+          onKeyDown={onKeyDown}
           id={name}
           type={type ? type : "text"}
           name={name}
@@ -75,10 +82,13 @@ function InputText(
           ref={ref}
           // defaultValue={value}
           placeholder={placeholder}
-          className="w-full py-3 px-4 rounded-md border-[1px] "
+          className="w-full py-3 px-4 rounded-md border-[1px] capitalize"
         />
         {errors && (
-          <div className="text-xs text-red-500 font-bold">
+          <div
+            data-testid="error-input"
+            className="text-xs text-red-500 font-bold"
+          >
             {name} is Required
           </div>
         )}
