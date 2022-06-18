@@ -30,7 +30,8 @@ function LoginForm() {
         navigate("/");
       })
       .catch((err) => {
-        AlertToast("error", err.message);
+        // console.log(err.response);
+        AlertToast("error", err.response?.data?.message);
       });
   };
 
@@ -69,7 +70,7 @@ function LoginForm() {
           Forgot Password
         </div>
         <div className="mt-5">
-          <Button type="btn-wfull" title="Login" />
+          <Button test-data-id="login-btn" type="btn-wfull" title="Login" />
         </div>
       </form>
       <div className="mt-5">
