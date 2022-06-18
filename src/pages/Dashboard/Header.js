@@ -1,14 +1,15 @@
 import React from "react";
 import { HomeIC, DashboardIC } from "../../assets/icons";
-import formatNumber from "dateformat";
+import formatDate from "dateformat";
+import { formatNumber } from "../../utils/format-rupiah";
 
-function Header() {
+function Header({ data }) {
   return (
     <div>
       <div className="flex flex-col font-bold text-3xl">
         <div className="text-gray-700 pb-2">Dashboard</div>
         <div className="text-gray-600 text-sm font-normal pb-5">
-	  {formatNumber(new Date(),"fullDate")}
+          {formatDate(new Date(), "fullDate")}
         </div>
         <hr />
       </div>
@@ -17,7 +18,9 @@ function Header() {
           <div>
             <HomeIC />
           </div>
-          <div className="pt-2 font-semibold text-3xl">Rp. 1.500.000</div>
+          <div className="pt-2 font-semibold text-3xl">
+            {formatNumber(data?.revenue)}
+          </div>
           <div className="text-lg pt-2">Total Revenue / April 2022</div>
         </div>
         <div className="p-4 bg-white shadow-xl flex flex-col rounded">
@@ -31,7 +34,7 @@ function Header() {
           <div>
             <HomeIC />
           </div>
-          <div className="pt-2 font-semibold text-3xl">100</div>
+          <div className="pt-2 font-semibold text-3xl">{data?.totalOrder}</div>
           <div className="text-lg pt-2">Total Orders / April 2022</div>
         </div>
       </div>
