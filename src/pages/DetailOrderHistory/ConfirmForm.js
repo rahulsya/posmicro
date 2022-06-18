@@ -34,12 +34,14 @@ function ConfirmForm({ dataState }) {
       <div className="pt-4"></div>
 
       <form onSubmit={handleSubmit(onUpdateOrder)}>
-        <Input
-          {...register("courier_number", { required: true })}
-          name="courier_number"
-          title="Update Shipping Number"
-          placeholder="shipping Number"
-        />
+        {orderDetail?.courier_service !== null && (
+          <Input
+            {...register("courier_number", { required: true })}
+            name="courier_number"
+            title="Update Shipping Number"
+            placeholder="shipping Number"
+          />
+        )}
         <div className="">
           <label className="font-semibold text-gray-800" htmlFor="status_order">
             Status Order

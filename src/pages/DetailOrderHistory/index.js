@@ -72,7 +72,7 @@ function DetailOrderHistory() {
       <div className="flex flex-row min-h-screen bg-slate-100">
         <Navbar />
         <div className="w-full container mx-auto pt-12 px-3 lg:px-16">
-          <Header title="Order #00123890"></Header>
+          <Header title={`Order #${orderDetail?.invoice_number}`}></Header>
           <div className="mt-4 flex flex-col md:flex-row">
             <div className=" flex flex-col w-full px-4 py-5 rounded-lg shadow-xl bg-white">
               <div className="">
