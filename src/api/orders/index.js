@@ -7,4 +7,5 @@ export default {
   update_order: (id, payload) => axios.put(`/order/${id}`, payload),
   product_order: (params) => axios.get(`products/product_orders`, { params }),
   payment: (data) => axios.post(`payment/transaction`, data),
+  reports: (params) => axios.get(`/report`, { params }),
 };
