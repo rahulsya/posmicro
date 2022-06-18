@@ -5,7 +5,7 @@ import { formatNumber } from "../../utils/format-rupiah";
 const CartItem = ({ item, onInc, onDec, isShowAction }) => {
   return (
     <>
-      <div className="mb-4">
+      <div data-testid="cart-item" className="mb-4">
         <div className="flex flex-row">
           <div className="w-1/4">
             <img
