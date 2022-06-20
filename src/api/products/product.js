@@ -22,3 +22,7 @@ export const deleteProduct = async (id) => {
 export const updateStock = async (data) => {
   return await axios.post(`/products/stock`, { payload: data });
 };
+
+export const countProduct = async () => {
+  return await axios.get(`/products/count`);
+};
