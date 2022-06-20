@@ -10,14 +10,19 @@ function ConfirmForm({ dataState }) {
 
   const onUpdateOrder = (data) => {
     if (params?.id) {
+      let payload = { status: data?.status };
+      if (data?.courier_number !== "") {
+        payload = { ...payload, courier_number: data?.courier_number };
+      }
+
       orders
-        .update_order(params.id, data)
+        .update_order(params.id, payload)
         .then((response) => {
           console.log(response);
           setOrderDetail((state) => ({
             ...state,
             status: response.data.status,
-            courier_number: response.data.courier_number,
+            courier_number: response.data?.courier_number,
           }));
           AlertToast("success", "order status updated");
         })
@@ -36,7 +41,7 @@ function ConfirmForm({ dataState }) {
       <form onSubmit={handleSubmit(onUpdateOrder)}>
         {orderDetail?.courier_service !== null && (
           <Input
-            {...register("courier_number", { required: true })}
+            {...register("courier_number", { required: false })}
             name="courier_number"
             title="Update Shipping Number"
             placeholder="shipping Number"
