@@ -2,7 +2,10 @@ import React, { useEffect, useState } from "react";
 import { Navbar } from "../../components";
 import Header from "./Header";
 import OrderReport from "./Order-Report";
+// api
 import orders from "../../api/orders";
+import { countProduct } from "../../api/products/product";
+
 import AlerToast from "../../utils/toast";
 
 function Dashboard() {
@@ -36,12 +39,23 @@ function Dashboard() {
       });
   }, []);
 
+  const [productCount, setProductCount] = useState(0);
+  useEffect(() => {
+    countProduct()
+      .then((response) => {
+        setProductCount(response.product);
+      })
+      .catch((err) => {
+        AlerToast("error", err.message);
+      });
+  }, []);
+
   return (
     <div className="flex flex-row min-h-screen bg-slate-100">
       <Navbar />
       <div className="w-full flex lg:flex-row flex-col">
         <div className="w-full pt-12 px-5 container mx-auto">
-          <Header data={dataReport} />
+          <Header productCount={productCount} data={dataReport} />
           {/* order report */}
           <OrderReport dataState={{ dataOrders, setDataOrders }} />
         </div>

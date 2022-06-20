@@ -3,7 +3,7 @@ import { HomeIC, DashboardIC } from "../../assets/icons";
 import formatDate from "dateformat";
 import { formatNumber } from "../../utils/format-rupiah";
 
-function Header({ data }) {
+function Header({ productCount, data }) {
   return (
     <div>
       <div className="flex flex-col font-bold text-3xl">
@@ -27,7 +27,7 @@ function Header({ data }) {
           <div>
             <DashboardIC />
           </div>
-          <div className="pt-2 font-semibold text-3xl">45</div>
+          <div className="pt-2 font-semibold text-3xl">{productCount}</div>
           <div className="text-lg pt-2">Total Products </div>
         </div>
         <div className="p-4 bg-white shadow-xl flex flex-col rounded">

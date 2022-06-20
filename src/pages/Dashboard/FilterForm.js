@@ -11,19 +11,24 @@ function FilterForm({ dataState }) {
 
   const [status, setStatus] = useState(statusOrders[0]);
   const [invoiceNumber, setInvoiceNumber] = useState("");
+  const [date, setDate] = useState(null);
 
   const [isResetFilter, setIsResetFilter] = useState(false);
 
   const onSearch = (key) => {
     if (key === "Enter") {
-      fetchData({ invoiceNumber, status: "all" });
+      fetchData({ invoiceNumber, status: "all", month: date });
     }
   };
 
   const fetchData = (params) => {
     // params as data object
     orders
-      .order({ status: params?.status, invoice_number: params?.invoiceNumber })
+      .order({
+        status: params?.status,
+        invoice_number: params?.invoiceNumber,
+        month: params?.month,
+      })
       .then((response) => {
         setDataOrders(response.data);
         setIsResetFilter(true);
@@ -35,18 +40,7 @@ function FilterForm({ dataState }) {
 
   return (
     <div>
-      {isResetFilter === true && (
-        <Button
-          onPress={() => {
-            setStatus("all");
-            setInvoiceNumber("");
-            fetchData({ status: "all" });
-          }}
-          bg="bg-green-500"
-          title="Reset"
-        />
-      )}
-      <div className="flex flex-row w-1/2 py-2">
+      <div className="flex flex-row pt-2">
         <Input
           value={invoiceNumber}
           onKeyDown={(e) => onSearch(e.key)}
@@ -54,7 +48,16 @@ function FilterForm({ dataState }) {
           title="Search Invoice Number"
           placeholder="invoice number"
         />
+        <div className="px-2"></div>
+        <Input
+          value={date}
+          onKeyDown={(e) => onSearch(e.key)}
+          onChange={({ target }) => setDate(target.value)}
+          title="Date/Month"
+          type="date"
+        />
       </div>
+
       <div className="flex flex-row items-center">
         <div className="font-semibold mr-4">Status</div>
         {statusOrders.map((item, index) => {
@@ -76,6 +79,18 @@ function FilterForm({ dataState }) {
           );
         })}
       </div>
+      {isResetFilter === true && (
+        <Button
+          onPress={() => {
+            setDate("");
+            setStatus("all");
+            setInvoiceNumber("");
+            fetchData({ status: "all" });
+          }}
+          bg="bg-green-500 py-2"
+          title="Reset"
+        />
+      )}
     </div>
   );
 }
