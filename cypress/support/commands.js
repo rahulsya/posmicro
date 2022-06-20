@@ -23,3 +23,13 @@
 //
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
+
+Cypress.Commands.add("checkToken", (token) => {
+  cy.window().its("localStorage.length").should("eq", token);
+});
+
+Cypress.Commands.add("SetLocalstorage", (key, value) => {
+  cy.window().then((window) => {
+    window.localStorage.setItem(key, value);
+  });
+});
