@@ -29,7 +29,7 @@ function CategoryForm({ categoryState }) {
     reset();
   };
   return (
-    <>
+    <div data-testid="categories-card">
       <div className="flex flex-row justify-between mb-5">
         <div className="font-semibold text-xl">Manage Categories</div>
         <Button
@@ -69,7 +69,7 @@ function CategoryForm({ categoryState }) {
           categories={category?.data}
         />
       </div>
-    </>
+    </div>
   );
 }
 

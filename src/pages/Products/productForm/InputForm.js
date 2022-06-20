@@ -34,7 +34,7 @@ function InputForm({ setFormInput }) {
           title="Close"
         />
       </div>
-      <div>
+      <div data-testid="input-form-product">
         <form onSubmit={handleSubmit(onSubmit)}>
           <Input
             {...register("name", { required: true })}

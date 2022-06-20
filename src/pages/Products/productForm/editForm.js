@@ -35,7 +35,7 @@ function EditForm({ data, setShowFromEdit, setData }) {
   };
 
   return (
-    <>
+    <div data-testid="edit-form">
       <div className="flex flex-row justify-between mb-5">
         <div className="font-semibold text-xl">Edit Prodcut</div>
         <Button
@@ -101,7 +101,7 @@ function EditForm({ data, setShowFromEdit, setData }) {
         <div className="mt-5" />
         <Button onPress={onSubmit} bg="bg-green-500" title="Update Product" />
       </div>
-    </>
+    </div>
   );
 }
 
