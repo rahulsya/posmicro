@@ -33,7 +33,7 @@ function Address() {
   };
 
   return (
-    <div className="p-4 rounded shadow bg-white">
+    <div data-testid="address-form" className="p-4 rounded shadow bg-white">
       <div className="text-xl pb-4 font-bold">Data Address</div>
       <hr className="pb-3" />
       <div

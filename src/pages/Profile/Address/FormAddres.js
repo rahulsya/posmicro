@@ -32,7 +32,7 @@ function FormAddres({ setAddress }) {
   };
 
   return (
-    <div className="border p-4 rounded mt-2">
+    <div data-testid="add_address" className="border p-4 rounded mt-2">
       <form onSubmit={handleSubmit(onSubmit)}>
         <Input
           {...register("name_address", {
@@ -42,7 +42,7 @@ function FormAddres({ setAddress }) {
           name="name_address"
           type="text"
           placeholder="Name address"
-          errors={errors.name}
+          errors={errors.name_address}
         />
         <Input
           {...register("detail_address", {

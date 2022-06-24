@@ -9,7 +9,10 @@ function OrderItem({ data }) {
   const navigate = useNavigate();
   return (
     <>
-      <div className="w-full lg:w-3/4 border border-gray-400 rounded-lg py-4 px-4 mb-4">
+      <div
+        data-testid="orderhistory-item"
+        className="w-full lg:w-3/4 border border-gray-400 rounded-lg py-4 px-4 mb-4"
+      >
         <div className="flex flex-row justify-between">
           <div>
             <div className="font-semibold">Invoice #{invoice_number}</div>

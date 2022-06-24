@@ -40,7 +40,10 @@ function FormProfile({ dataProfile }) {
   };
 
   return (
-    <div className="bg-white px-4 py-4 rounded shadow w-full lg:w-1/2">
+    <div
+      data-testid="data-profile"
+      className="bg-white px-4 py-4 rounded shadow w-full lg:w-1/2"
+    >
       <div className="text-xl pb-4 font-bold">Update Profile</div>
       <hr className="pb-3" />
       <div className="flex flex-row justify-between">
