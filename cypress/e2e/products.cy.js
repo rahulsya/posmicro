@@ -1,7 +1,8 @@
+import tokens from "../fixtures/tokens.json";
 describe("products testing", () => {
   beforeEach(() => {
-    cy.fixture("tokens.json", { encoding: null }).as("datatokens");
-    cy.SetLocalstorage("tokens", JSON.stringify("@datatokens"));
+    // cy.fixture("tokens.json", { encoding: null }).as("datatokens");
+    cy.SetLocalstorage("tokens", JSON.stringify(tokens));
     cy.visit("/products");
   });
   it("should have data products", () => {
