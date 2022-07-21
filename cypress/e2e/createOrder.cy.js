@@ -1,25 +1,20 @@
+import tokens from "../fixtures/tokens.json";
 describe("testing create order", () => {
-  // beforeEach(() => {
-  // });
-  // login first
-  it("should redirect to login pages ", () => {
-    cy.visit("http://localhost:3000/");
-    cy.url().should("eq", "http://localhost:3000/Login");
+  beforeEach(() => {
+    cy.SetLocalstorage("tokens", JSON.stringify(tokens));
   });
-  // fill the login form
-  it("fill login form", () => {
-    cy.get("#email").type("rahuls@gmail.com");
-    cy.get("#password").type("qwerty123");
-    cy.contains("Login").click();
+
+  it("menampilkan halaman utama web", () => {
+    cy.visit("/");
     cy.url().should("eq", "http://localhost:3000/");
   });
 
-  it("should to have data product", () => {
+  it("Ditampilkan data produk pada halaman utama", () => {
     // should render 8 items /page
     cy.get('[data-testid="product-item"]').should("have.length", 8);
   });
 
-  it("should click item product & create order ", () => {
+  it("memilih item produk dan membuat order dengan pembayaran secara cash ", () => {
     cy.get(".grid > :nth-child(1)").click();
     cy.get(".grid > :nth-child(2)").click();
     cy.get('[data-testid="cart-item"]').should("have.length", 2);
@@ -27,13 +22,14 @@ describe("testing create order", () => {
     cy.get('[data-testid="button-test"]').click();
   });
 
-  it("should click item product & create order with paymentt ", () => {
+  it("memilih item produk dan membuat order dengan pembayaran secara non cash ", () => {
     cy.get(".grid > :nth-child(1)").click();
     cy.get(".grid > :nth-child(2)").click();
     cy.get('[data-testid="cart-item"]').should("have.length", 2);
     cy.get('[data-testid="button-test"]').should("be.visible");
     cy.contains("Non Cash").click();
     cy.get('[data-testid="button-test"]').click();
+    //menampilkan pop up midtrans
     cy.get("#snap-midtrans").should("be.visible");
   });
 });

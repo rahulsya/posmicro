@@ -3,7 +3,7 @@ describe("register test", () => {
     cy.visit("/register");
   });
 
-  it("should show alert error when form is not filled", () => {
+  it("menampilkan pesan error pada setiap inputan jika inputan kosong", () => {
     cy.contains("Register").click();
     cy.get('[data-testid="error-input"]').should(($item) => {
       expect($item.eq(0)).to.contain("name is Required");
@@ -12,7 +12,7 @@ describe("register test", () => {
     });
   });
 
-  it("fill form register account", () => {
+  it("melengkapi form inputan registrasi", () => {
     cy.get("#name").type("testing123");
     cy.get("#email").type("testItem@gmail.com");
     cy.get("#password").type("secret12345");

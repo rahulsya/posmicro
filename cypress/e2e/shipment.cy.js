@@ -4,21 +4,21 @@ describe("shipment", () => {
     cy.SetLocalstorage("tokens", JSON.stringify(tokens));
   });
 
-  it("visit the prodcuts pages", () => {
+  it("Menampilkan Halaman utama", () => {
     cy.visit("/");
     cy.url().should("eq", "http://localhost:3000/");
   });
-  it("select products items", () => {
+  it("memilih produk item", () => {
     cy.get('[data-testid="product-item"]:nth-child(1)').click();
     cy.get('[data-testid="product-item"]:nth-child(2)').click();
     cy.get('[data-testid="cart-item"]').should("have.length", 2);
     cy.get('[data-testid="button-test"]').should("be.visible");
   });
-  it("select shipping method", () => {
+  it("memilih jasa pengiriman ", () => {
     cy.contains("Courier Service").click();
     cy.get('[data-testid="button-test"]').click();
   });
-  it("select fill form shipping", () => {
+  it("melengkapai form pengiriman ", () => {
     cy.get("#province")
       .select("6.DKI Jakarta")
       .should("have.value", "6.DKI Jakarta");
@@ -28,7 +28,7 @@ describe("shipment", () => {
       .should("have.value", "154.Jakarta Timur");
     //   select alaamt
     cy.get(":nth-child(5) > .cursor-pointer").should("be.visible");
-    cy.get(":nth-child(5) > .cursor-pointer").click();
+    cy.get(":nth-child(5) > :nth-child(3)").click();
 
     // select courier
     cy.get(".mb-3 > :nth-child(2)").should("be.visible");

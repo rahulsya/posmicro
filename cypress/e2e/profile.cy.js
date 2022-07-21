@@ -8,7 +8,7 @@ describe("profile pages", () => {
     cy.visit("/profile");
   });
 
-  it("update data profile user", () => {
+  it("Mengubah Data Profil User", () => {
     cy.get('[data-testid="data-profile"]').should("be.visible");
     cy.get("#name").clear();
     cy.get("#name").type("admin");
@@ -24,7 +24,7 @@ describe("profile pages", () => {
     cy.visit("/profile");
   });
 
-  it("add new data address", () => {
+  it("Menambahkan Data Alamat Baru", () => {
     cy.get('[data-testid="address-form"]').should("be.visible");
     cy.get('[data-testid="address-form"] > :nth-child(3)').click();
     cy.get('[data-testid="add_address"]').should("be.visible");
@@ -40,7 +40,7 @@ describe("profile pages", () => {
     cy.contains("test address").should("be.visible");
   });
 
-  it("edit data address", () => {
+  it("Mengubah Data alamat Baru", () => {
     cy.get(".my-2 > .text-green-600").click();
     cy.get('[data-testid="address-form"] > :nth-child(5)').should("be.visible");
     cy.get(":nth-child(2) > #name").clear();
@@ -51,7 +51,7 @@ describe("profile pages", () => {
     cy.contains("edited address").should("be.visible");
   });
 
-  it("detele data address", () => {
+  it("Menghapus Data alamat baru", () => {
     cy.get(".my-2 > .flex > .cursor-pointer").click();
   });
 });

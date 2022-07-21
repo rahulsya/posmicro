@@ -4,11 +4,11 @@ describe("order history", () => {
     cy.SetLocalstorage("tokens", JSON.stringify(tokens));
   });
 
-  it("visit the prodcuts pages", () => {
+  it("Menampilkan Halaman Riwayat Order", () => {
     cy.visit("/order-history");
     cy.url().should("eq", "http://localhost:3000/order-history");
   });
-  it("render data history order items", () => {
+  it("Menampilkan data riwayat order yang dilakukan user", () => {
     cy.get('[data-testid="orderhistory-item"]').should("be.visible");
 
     // click status order
@@ -22,8 +22,8 @@ describe("order history", () => {
     cy.get(":nth-child(1) > .flex > :nth-child(2) > .px-4").click();
   });
 
-  it("update status order", () => {
-    cy.url().should("eq", "http://localhost:3000/detail-order/36");
+  it("Mengubah Status Order Pesanan yang dilakukan user", () => {
+    cy.url().should("eq", "http://localhost:3000/detail-order/60");
     cy.get("#status_order").select("SUCCESS").should("have.value", "SUCCESS");
     cy.get("#courier_number").type("666111");
     cy.get(".text-center").click();

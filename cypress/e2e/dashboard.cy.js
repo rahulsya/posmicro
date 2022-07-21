@@ -4,18 +4,18 @@ describe("dashboard page test", () => {
     cy.SetLocalstorage("tokens", JSON.stringify(tokens));
   });
 
-  it("should visit dashboard page", () => {
+  it("Menampilkan halaman dashboard", () => {
     cy.visit("/dashboard");
     cy.url().should("eq", "http://localhost:3000/dashboard");
   });
 
-  it("show reports cards", () => {
+  it("menampilkan data laporan penjualan", () => {
     cy.get(".grid > :nth-child(1)").should("be.visible");
     cy.get(".grid > :nth-child(2)").should("be.visible");
     cy.get(".grid > :nth-child(3)").should("be.visible");
   });
 
-  it("should search order report by invoice id, and press enter key", () => {
+  it("search data laporan berdasarkan invoice number dan bulan", () => {
     // input text
     // invoice number 221550905
     cy.get(".pt-2 > :nth-child(1) > .w-full").type(`221550905{enter}`);
@@ -23,11 +23,11 @@ describe("dashboard page test", () => {
     // reset button click
     cy.get(".text-center").click();
     // search by date
-    cy.get(".pt-2 > :nth-child(3) > .w-full").type(`2022-05-13`);
+    cy.get(".pt-2 > :nth-child(3) > .w-full").type(`2022-06`);
     cy.get(".pt-2 > :nth-child(1) > .w-full").type(" {enter}"); //err
   });
 
-  it("filter reports by status order", () => {
+  it("filter data laporan berdasarkan status pesanan", () => {
     // success
     cy.get(".items-center > :nth-child(3)").click();
     cy.contains("SUCCESS").should("be.visible");

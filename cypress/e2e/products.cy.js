@@ -5,12 +5,12 @@ describe("products testing", () => {
     cy.SetLocalstorage("tokens", JSON.stringify(tokens));
     cy.visit("/products");
   });
-  it("should have data products", () => {
+  it("Menampilkan data produk pada halaman produk", () => {
     // should render 8 items /page
     cy.get('[data-testid="product-item"]').should("have.length", 8);
   });
 
-  it("should can edit data product", () => {
+  it("Melakukan edit salah satu data produk", () => {
     // click btn
     cy.get(":nth-child(1) > .flex > .bg-blue-400").click();
     cy.get('[data-testid="edit-form"]').should("be.visible");
@@ -26,7 +26,7 @@ describe("products testing", () => {
   });
   //   cy.visit("/product");
 
-  it("Add new data product", () => {
+  it("Menambah data produk baru", () => {
     cy.contains("Add Product").click();
     cy.get('[data-testid="input-form-product"]').should("be.visible");
     cy.get("#name").type("product test");
@@ -39,7 +39,7 @@ describe("products testing", () => {
     cy.contains("success add new product").should("be.visible");
   });
 
-  it("delete data product", () => {
+  it("Menghapus Data produk", () => {
     cy.contains("product test").should("be.visible");
     cy.get(":nth-child(1) > .flex > .bg-red-400").click();
   });
