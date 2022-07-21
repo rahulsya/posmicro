@@ -10,9 +10,10 @@ import AlerToast from "../../utils/toast";
 
 function Dashboard() {
   const [dataReport, setDataReport] = useState(null);
-  const [month] = useState(new Date().getMonth() + 1);
+  const [month, setMonth] = useState(new Date());
 
   useEffect(() => {
+    console.log("re rendw");
     orders
       .reports({ month })
       .then((response) => {
@@ -27,6 +28,7 @@ function Dashboard() {
   const [dataOrders, setDataOrders] = useState([]);
 
   useEffect(() => {
+    console.log("reremder");
     orders
       .order({
         status: "all",
@@ -55,7 +57,11 @@ function Dashboard() {
       <Navbar />
       <div className="w-full flex lg:flex-row flex-col">
         <div className="w-full pt-12 px-5 container mx-auto">
-          <Header productCount={productCount} data={dataReport} />
+          <Header
+            dataState={{ month, setMonth }}
+            productCount={productCount}
+            data={dataReport}
+          />
           {/* order report */}
           <OrderReport dataState={{ dataOrders, setDataOrders }} />
         </div>

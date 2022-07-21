@@ -17,7 +17,11 @@ function FilterForm({ dataState }) {
 
   const onSearch = (key) => {
     if (key === "Enter") {
-      fetchData({ invoiceNumber, status: "all", month: date });
+      fetchData({
+        invoiceNumber,
+        status: status ? status : "all",
+        month: date,
+      });
     }
   };
 
@@ -53,8 +57,8 @@ function FilterForm({ dataState }) {
           value={date}
           onKeyDown={(e) => onSearch(e.key)}
           onChange={({ target }) => setDate(target.value)}
-          title="Date/Month"
-          type="date"
+          title="Month"
+          type="month"
         />
       </div>
 
@@ -66,7 +70,7 @@ function FilterForm({ dataState }) {
               key={index}
               onClick={() => {
                 setStatus(item);
-                fetchData({ status: item });
+                fetchData({ status: item, month: date });
               }}
               className={`capitalize cursor-pointer px-4 py-2 ${
                 status === item
