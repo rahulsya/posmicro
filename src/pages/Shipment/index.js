@@ -107,7 +107,10 @@ function Shipment() {
         alert("payment success!");
         // console.log(result);
         orders
-          .update_order(data?.order?.id, { payment_status: "SUCCESS" })
+          .update_order(data?.order?.id, {
+            payment_status: "SUCCESS",
+            payment_id: result?.order_id,
+          })
           .then((response) => {
             Toast("success", "payment completed");
             navigate(`/detail-order/${data?.order?.id}`);
@@ -117,9 +120,15 @@ function Shipment() {
       onPending: function (result) {
         /* You may add your own implementation here */
         alert("wating your payment!");
-        Toast("success", "payment completed");
-        navigate(`/detail-order/${data?.order?.id}`);
-        console.log(result);
+        orders
+          .update_order(data?.order?.id, {
+            payment_status: "PROCESS",
+            payment_id: result?.order_id,
+          })
+          .then((res) => {
+            Toast("success", "order created");
+            navigate(`/detail-order/${data?.order?.id}`);
+          });
       },
       onError: function (result) {
         /* You may add your own implementation here */
@@ -133,7 +142,7 @@ function Shipment() {
             navigate(`/detail-order/${data?.order?.id}`);
           });
         alert("payment failed!");
-        console.log(result);
+        // console.log(result);
       },
       onClose: function () {
         /* You may add your own implementation here */
@@ -143,7 +152,7 @@ function Shipment() {
             status: "CANCEL",
           })
           .then((response) => {
-            Toast("success", "payment completed");
+            Toast("error", "order cancel");
             navigate(`/detail-order/${data?.order?.id}`);
           });
         alert("you closed the popup without finishing the payment");

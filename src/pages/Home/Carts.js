@@ -84,12 +84,15 @@ function Carts() {
     }
     window.snap.pay(token, {
       onSuccess: function (result) {
-        console.log(result);
+        // console.log(result);
         /* You may add your own implementation here */
         alert("payment success!");
-        // console.log(result);
+        console.log(result);
         orders
-          .update_order(data?.order?.id, { payment_status: "SUCCESS" })
+          .update_order(data?.order?.id, {
+            payment_status: "SUCCESS",
+            payment_id: result?.order_id,
+          })
           .then((response) => {
             AlertToast("success", "payment completed");
             navigate(`/detail-order/${data?.order?.id}`);
@@ -97,15 +100,30 @@ function Carts() {
       },
       onPending: function (result) {
         /* You may add your own implementation here */
+        // console.log(result);
         alert("wating your payment!");
-        AlertToast("success", "payment completed");
-        navigate(`/detail-order/${data?.order?.id}`);
-        console.log(result);
+        orders
+          .update_order(data?.order?.id, {
+            payment_status: "PROCESS",
+            payment_id: result?.order_id,
+          })
+          .then((res) => {
+            AlertToast("success", "order created");
+            navigate(`/detail-order/${data?.order?.id}`);
+          });
       },
       onError: function (result) {
         /* You may add your own implementation here */
+        orders
+          .update_order(data?.order?.id, {
+            payment_status: "CANCEL",
+            status: "CANCEL",
+          })
+          .then((response) => {
+            AlertToast("success", "payment completed");
+            navigate(`/detail-order/${data?.order?.id}`);
+          });
         alert("payment failed!");
-        console.log(result);
       },
       onClose: function () {
         /* You may add your own implementation here */
@@ -115,7 +133,7 @@ function Carts() {
             status: "CANCEL",
           })
           .then((response) => {
-            AlertToast("success", "payment completed");
+            AlertToast("error", "order cancel");
             navigate(`/detail-order/${data?.order?.id}`);
           });
         alert("you closed the popup without finishing the payment");
