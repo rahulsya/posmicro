@@ -1,7 +1,22 @@
-import React from "react";
+import React, { useState } from "react";
 import dateFormat from "dateformat";
+import { Button } from "../../components";
+import order from "../../api/orders";
 
 function Address({ address, data, userDetails }) {
+  const [detailPayment, setDetailPayment] = useState(null);
+  const onCheckPayment = () => {
+    order
+      .check_payment(data?.payment_id)
+      .then((response) => {
+        const { data } = response;
+        setDetailPayment(data);
+      })
+      .catch((err) => {
+        console.log(err.response);
+      });
+  };
+
   return (
     <div className="pt-3">
       <div>{dateFormat(data?.createdAt, "fullDate")}</div>
@@ -31,7 +46,7 @@ function Address({ address, data, userDetails }) {
           {data?.status}
         </div>
       </div>
-      <div className="flex">
+      {/* <div className="flex">
         Status Payment :{" "}
         <div
           className={`font-semibold ${
@@ -42,7 +57,43 @@ function Address({ address, data, userDetails }) {
         >
           {data?.payment_status}
         </div>
-      </div>
+      </div> */}
+      {/* check payment status */}
+      {data?.payment_method === "NONCASH" && (
+        <>
+          <div className="font-semibold mt-4">Payment Status</div>
+          <div>
+            <Button
+              onPress={() => onCheckPayment()}
+              bg="bg-yellow-500"
+              title="check status payment"
+            />
+            {detailPayment !== null && (
+              <>
+                <div className="flex pt-3">
+                  payment type : {detailPayment?.payment_type}
+                </div>
+                <div className="flex">
+                  transaction time : {detailPayment?.transaction_time}
+                </div>
+                <div className="flex mt-2">
+                  transaction status :
+                  <div
+                    className={`ml-2 font-semibold rounded-xl px-2 py-1 text-white ${
+                      detailPayment?.transaction_status ||
+                      detailPayment?.capture === "settlement"
+                        ? "bg-green-500"
+                        : "bg-blue-400"
+                    }`}
+                  >
+                    {detailPayment?.transaction_status}
+                  </div>
+                </div>
+              </>
+            )}
+          </div>
+        </>
+      )}
     </div>
   );
 }

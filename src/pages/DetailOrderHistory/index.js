@@ -95,7 +95,7 @@ function DetailOrderHistory() {
                 return <OrderItem key={index} data={{ item, orderItem }} />;
               })}
             </div>
-
+            {/* right side */}
             <div className="w-full md:w-1/2 lg:mx-3">
               <div className="bg-white shadow-lg px-4 py-4 rounded-lg">
                 <div className="text-lg font-semibold">Detail Payment</div>

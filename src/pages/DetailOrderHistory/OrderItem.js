@@ -14,13 +14,13 @@ function OrderItem({ data }) {
         <div className="pl-3">
           <div>{item.name}</div>
           <div>
-            {orderItem?.quantity} x {`Rp. ${item.price}`}
+            {orderItem?.quantity} x {`Rp. ${orderItem?.item_price}`}
           </div>
         </div>
       </div>
       <div className="justify-self-end">
         <div>Total Price</div>
-        <div>{`Rp. ${orderItem?.quantity * item.price}`}</div>
+        <div>{`Rp. ${orderItem?.quantity * orderItem?.item_price}`}</div>
       </div>
     </div>
   );
