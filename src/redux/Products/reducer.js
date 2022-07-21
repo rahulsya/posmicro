@@ -38,7 +38,10 @@ export default function reducer(state = initialState, action) {
             name: item.id === data.id ? data.name : item.name,
             category_id:
               item.id === data.id ? data.category_id : item.category_id,
-            price: item.id === data.id ? data.price : item.price,
+            price:
+              item.id === data.id
+                ? data.base_price - data.discount
+                : item.price,
             amount_stock:
               item.id === data.id ? data.amount_stock : item.amount_stock,
           })),
