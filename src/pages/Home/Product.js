@@ -3,6 +3,7 @@ import { ProductItem } from "../../components";
 
 import { useDispatch } from "react-redux";
 import { addItem } from "../../redux/Cart/action";
+import toast from "../../utils/toast";
 
 const Product = ({ dataProducts }) => {
   const dispatch = useDispatch();
@@ -13,7 +14,11 @@ const Product = ({ dataProducts }) => {
         {dataProducts?.map((item) => {
           return (
             <ProductItem
-              onClick={() => dispatch(addItem(item))}
+              onClick={() =>
+                item?.amount_stock === 0
+                  ? toast("error", "product is out of stock")
+                  : dispatch(addItem(item))
+              }
               key={item.id}
               item={item}
             />
