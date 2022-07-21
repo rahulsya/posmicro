@@ -48,7 +48,7 @@ function LoginForm() {
         <div className="w-80">
           <Input
             {...register("email", {
-              required: true,
+              required: "field email is required",
               pattern: /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/,
             })}
             name="email"
@@ -58,7 +58,9 @@ function LoginForm() {
             errors={errors.email}
           />
           <Input
-            {...register("password", { required: true })}
+            {...register("password", {
+              required: "field password is required",
+            })}
             name="password"
             type="password"
             title="Password"

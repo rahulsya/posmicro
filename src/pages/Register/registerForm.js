@@ -35,7 +35,7 @@ function RegisterForm() {
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="w-80">
           <Input
-            {...register("name", { required: true })}
+            {...register("name", { required: "name is required" })}
             name="name"
             type="name"
             title="Name"
@@ -44,7 +44,7 @@ function RegisterForm() {
           />
           <Input
             {...register("email", {
-              required: true,
+              required: "email is required",
               pattern: /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/,
             })}
             name="email"
@@ -54,7 +54,10 @@ function RegisterForm() {
             errors={errors.email}
           />
           <Input
-            {...register("password", { required: true, minLength: 8 })}
+            {...register("password", {
+              required: "password is required",
+              minLength: 8,
+            })}
             name="password"
             type="password"
             title="Password"
