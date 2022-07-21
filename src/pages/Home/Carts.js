@@ -60,6 +60,8 @@ function Carts() {
           total_amount: sumPrice(carts),
           payment_method: "CASH",
           user_id: Auth.dataAuth?.id,
+          payment_status: "SUCCESS",
+          status: "SUCCESS",
         })
         .then((response) => {
           // const { data } = response;
@@ -82,6 +84,7 @@ function Carts() {
     }
     window.snap.pay(token, {
       onSuccess: function (result) {
+        console.log(result);
         /* You may add your own implementation here */
         alert("payment success!");
         // console.log(result);
