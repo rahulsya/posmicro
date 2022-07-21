@@ -87,9 +87,9 @@ function InputText(
         {errors && (
           <div
             data-testid="error-input"
-            className="text-xs text-red-500 font-bold"
+            className="text-xs text-red-500 font-bold capitalize"
           >
-            {name} is Required
+            {errors?.message !== "" && errors?.message}
           </div>
         )}
       </div>

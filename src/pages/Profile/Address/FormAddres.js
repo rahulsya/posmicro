@@ -36,7 +36,7 @@ function FormAddres({ setAddress }) {
       <form onSubmit={handleSubmit(onSubmit)}>
         <Input
           {...register("name_address", {
-            required: true,
+            required: "name address is required",
           })}
           title="Name Address"
           name="name_address"
@@ -46,7 +46,7 @@ function FormAddres({ setAddress }) {
         />
         <Input
           {...register("detail_address", {
-            required: true,
+            required: "detail address is required",
           })}
           title="Address Detail"
           name="detail_address"

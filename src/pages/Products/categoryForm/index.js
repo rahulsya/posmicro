@@ -41,7 +41,7 @@ function CategoryForm({ categoryState }) {
       <div>
         <form onSubmit={handleSubmit(onSubmit)}>
           <Input
-            {...register("category", { required: true })}
+            {...register("category", { required: "category name is required" })}
             name="category"
             title="Category"
             placeholder="Category Name"
