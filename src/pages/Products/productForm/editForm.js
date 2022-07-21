@@ -20,9 +20,10 @@ function EditForm({ data, setShowFromEdit, setData }) {
   const onSubmit = () => {
     const payload = new FormData();
     payload.append("name", data.name);
-    payload.append("price", data.price);
+    payload.append("price", data.base_price);
     payload.append("stock", data.amount_stock);
     payload.append("category_id", data.category_id);
+    payload.append("discount", data.discount);
     if (newImage) {
       payload.append("image", newImage);
     }
@@ -57,7 +58,15 @@ function EditForm({ data, setShowFromEdit, setData }) {
           type="number"
           title="Price"
           placeholder="product price"
-          value={data?.price}
+          value={data?.base_price}
+          onChange={handeOnchange}
+        />
+        <Input
+          name="discount"
+          type="number"
+          title="discount"
+          placeholder="product discount"
+          value={data?.discount}
           onChange={handeOnchange}
         />
         <Input
