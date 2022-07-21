@@ -1,10 +1,13 @@
 import { useEffect, useState } from "react";
 import Api from "../../api/address";
+import { Button } from "../../components";
+import { useNavigate } from "react-router-dom";
 
 function Address({ data }) {
   const { DataUser, setDataShipment } = data;
   const [dataAddress, setDataAddress] = useState([]);
   const [selectedAddress, setSelectedAddress] = useState({});
+  const navigate = useNavigate();
 
   useEffect(() => {
     Api.getAll()
@@ -23,7 +26,14 @@ function Address({ data }) {
         <p>{DataUser?.email}</p>
         <p>{DataUser?.phone_number}</p>
       </div>
-      <div className="py-2">Select Address</div>
+      <div className="py-2">Pilih Alamat : </div>
+      {dataAddress.length === 0 && (
+        <Button
+          onPress={() => navigate("/profile")}
+          title="Tambah Alamat"
+          bg="bg-green-500"
+        />
+      )}
       <div className="flex">
         {dataAddress?.map((item, index) => {
           return (
