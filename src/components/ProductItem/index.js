@@ -14,7 +14,9 @@ function ProductItem({
       data-testid="product-item"
       key={item.id}
       onClick={onClick}
-      className="px-3 py-3 bg-white rounded-xl flex flex-col flex-wrap cursor-pointer hover:shadow-lg"
+      className={`px-3 py-3 ${
+        item.amount_stock === 0 ? "bg-gray-300" : "bg-white"
+      } rounded-xl flex flex-col flex-wrap cursor-pointer hover:shadow-lg`}
     >
       <img
         src={`${process.env.REACT_APP_IMAGE_URL}/${item?.image_url}`}
@@ -28,6 +30,12 @@ function ProductItem({
       <div className="text-lg font-bold text-gray-800">
         {formatNumber(item.price)}
       </div>
+      {item?.discount !== 0 && item?.discount !== null && (
+        <div className="pt-1 rounded line-through text-red-500 italic font-semibold text-sm">
+          {" "}
+          {formatNumber(item?.base_price)}
+        </div>
+      )}
       {actionButtons && (
         <div className="flex flex-row justify-end -mr-3 items-end self-end">
           <Button onPress={actionDelete} bg="bg-red-400" title="Delete" />
