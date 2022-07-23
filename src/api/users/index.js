@@ -12,4 +12,7 @@ export default {
       refresh_token: credentials.refresh_token,
       email: credentials.email,
     }),
+  forgetPassword: (email) => axios.post(`/users/forget-password`, { email }),
+  updatePassword: (token, password) =>
+    axios.post(`/users/update-password`, { token, password }),
 };
