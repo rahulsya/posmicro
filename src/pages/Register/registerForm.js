@@ -56,7 +56,10 @@ function RegisterForm() {
           <Input
             {...register("password", {
               required: "password is required",
-              minLength: 8,
+              pattern: {
+                value: /^(?=.*?[a-z])(?=.*?[0-9]).{8,}$/,
+                message: "Password terdiri dari karakter dan angka",
+              },
             })}
             name="password"
             type="password"
