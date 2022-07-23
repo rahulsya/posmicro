@@ -10,6 +10,8 @@ import {
   DetailOrderHistory,
   OrderHistory,
   Register,
+  ResetPassword,
+  RequestResetPassword,
 } from "./pages";
 import { GuardRoute } from "./components";
 import { ToastContainer } from "react-toastify";
@@ -84,6 +86,11 @@ function App() {
               <DetailOrderHistory />
             </GuardRoute>
           }
+        />
+        <Route path="/reset-password/:token" element={<ResetPassword />} />
+        <Route
+          path="/request-reset-password"
+          element={<RequestResetPassword />}
         />
       </Routes>
       <ToastContainer />
