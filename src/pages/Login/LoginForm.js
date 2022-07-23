@@ -68,7 +68,10 @@ function LoginForm() {
             errors={errors.password}
           />
         </div>
-        <div className="cursor-pointer text-blue-500 font-semibold underline">
+        <div
+          onClick={() => navigate("/request-reset-password")}
+          className="cursor-pointer text-blue-500 font-semibold underline"
+        >
           Forgot Password
         </div>
         <div className="mt-5">
