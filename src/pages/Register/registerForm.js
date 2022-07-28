@@ -23,6 +23,10 @@ function RegisterForm() {
         navigate("/Login");
       })
       .catch((err) => {
+        if (err.response.status === 400) {
+          AlertToast("error", err.response.data.error[0].message);
+          return;
+        }
         AlertToast("error", err?.message);
       });
   };

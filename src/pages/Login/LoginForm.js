@@ -60,6 +60,10 @@ function LoginForm() {
           <Input
             {...register("password", {
               required: "field password is required",
+              pattern: {
+                value: /^(?=.*?[a-z])(?=.*?[0-9]).{8,}$/,
+                message: "Password terdiri dari karakter dan angka",
+              },
             })}
             name="password"
             type="password"

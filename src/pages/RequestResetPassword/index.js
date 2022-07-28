@@ -62,7 +62,7 @@ function RequestResetPassword() {
                 disabled={loading}
                 test-data-id="login-btn"
                 type="btn-wfull"
-                title="Send Email"
+                title={loading ? "Loading..." : "Send Email"}
               />
             </div>
           </form>

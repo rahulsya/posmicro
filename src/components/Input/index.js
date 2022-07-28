@@ -82,7 +82,7 @@ function InputText(
           ref={ref}
           // defaultValue={value}
           placeholder={placeholder}
-          className="w-full py-3 px-4 rounded-md border-[1px] capitalize"
+          className="w-full py-3 px-4 rounded-md border-[1px]"
         />
         {errors && (
           <div
