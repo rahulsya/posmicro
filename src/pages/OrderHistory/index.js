@@ -35,6 +35,11 @@ function OrderHistory() {
                   return <OrderItem data={item} key={index} />;
                 })}
               </div>
+              {orders.length === 0 && (
+                <div className="capitalize w-full flex justify-center py-3 font-semibold">
+                  <div>data order is empty</div>
+                </div>
+              )}
             </div>
           </div>
         </div>
