@@ -8,7 +8,6 @@ import { EditProduct } from "../../../redux/Products/action";
 function EditForm({ data, setShowFromEdit, setData }) {
   const dispatch = useDispatch();
   const [newImage, setNewImage] = useState(null);
-
   const category = useSelector((state) => state.categories);
   const handeOnchange = (e) => {
     return setData((state) => ({
@@ -38,7 +37,7 @@ function EditForm({ data, setShowFromEdit, setData }) {
   return (
     <div data-testid="edit-form">
       <div className="flex flex-row justify-between mb-5">
-        <div className="font-semibold text-xl">Edit Prodcut</div>
+        <div className="font-semibold text-xl">Edit Prodcuts</div>
         <Button
           onPress={() => setShowFromEdit(false)}
           bg="bg-red-500"
@@ -54,7 +53,7 @@ function EditForm({ data, setShowFromEdit, setData }) {
           onChange={handeOnchange}
         />
         <Input
-          name="price"
+          name="base_price"
           type="number"
           title="Price"
           placeholder="product price"
